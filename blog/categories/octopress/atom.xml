@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | A little ninja blog]]></title>
   <link href="http://blog4fun.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2013-10-08T00:52:41+09:00</updated>
+  <updated>2013-11-01T01:40:53+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -15,10 +15,21 @@
   
   <entry>
     <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http://blog4fun.github.io/blog/2013/10/07/hello-world/"/>
-    <updated>2013-10-07T23:47:00+09:00</updated>
-    <id>http://blog4fun.github.io/blog/2013/10/07/hello-world</id>
+    <link href="http://blog4fun.github.io/blog/2013/11/01/hello-world/"/>
+    <updated>2013-11-01T01:40:00+09:00</updated>
+    <id>http://blog4fun.github.io/blog/2013/11/01/hello-world</id>
     <content type="html"><![CDATA[<p>Enjoy blogging with Octopress and Github!</p>
+
+<p>Test sharing code snippets
+``` python Test syntax of backtick code block</p>
+
+<pre><code>while 1:
+    print "WoW"
+else:
+    print "Oops!"
+</code></pre>
+
+<p>```</p>
 ]]></content>
   </entry>
   
