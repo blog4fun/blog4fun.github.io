@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: code snippets | A little ninja blog]]></title>
-  <link href="http://blog4fun.github.io/blog/categories/code-snippets/atom.xml" rel="self"/>
+  <title><![CDATA[Category: markdown | A little ninja blog]]></title>
+  <link href="http://blog4fun.github.io/blog/categories/markdown/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
   <updated>2013-12-01T00:11:21+09:00</updated>
   <id>http://blog4fun.github.io/</id>

@@ -4,7 +4,7 @@
   <title><![CDATA[A little ninja blog]]></title>
   <link href="http://blog4fun.github.io/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2013-11-30T23:28:08+09:00</updated>
+  <updated>2013-12-01T00:11:21+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -45,9 +45,10 @@ This format can be thought as CSR with the roles of row and column exchanged. Th
     <link href="http://blog4fun.github.io/blog/2013/11/01/hello-world/"/>
     <updated>2013-11-01T01:40:00+09:00</updated>
     <id>http://blog4fun.github.io/blog/2013/11/01/hello-world</id>
-    <content type="html"><![CDATA[<p>Enjoy blogging with Octopress and Github!</p>
+    <content type="html"><![CDATA[<p>Today, I&rsquo;m pretty excited to start blogging with a geeky, yet fun Octopress! <br/>
+As a newbie, I&rsquo;ll jot down a basic setting of Octopress-based blogs in this very first post.</p>
 
-<p>Test sharing code snippets</p>
+<p><strong>1. Test sharing code snippets</strong></p>
 
 <figure class='code'><figcaption><span>Test syntax of backtick code block</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -59,6 +60,9 @@ This format can be thought as CSR with the roles of row and column exchanged. Th
 </span><span class='line'>  <span class="k">print</span> <span class="s">&quot;Oops!&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p><strong>2. Markdown</strong> <br/>
+A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">cheat-sheet</a>, and an online markdown <a href="http://www.ctrlshift.net/project/markdowneditor/">editor</a></p>
 ]]></content>
   </entry>
   
