@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - A little ninja blog</title>
+  <title>On sparse matrix storage schemes (Novice-level) - A little ninja blog</title>
   <meta name="author" content="Duong Nguyen">
 
   
-  <meta name="description" content="Blog Archive 2013 On sparse matrix storage schemes (Novice-level)
-Nov 29 2013 posted in basic, knowledge Hello World
-Nov 01 2013 posted in code &hellip;">
+  <meta name="description" content="In this post, I will discuss some simple storage schemas for sparse matrices. Disclaimer: This informal note is mainly based on my understanding so &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ Nov 01 2013 posted in code &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog4fun.github.io/archives">
+  <link rel="canonical" href="http://blog4fun.github.io/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="A little ninja blog" type="application/atom+xml">
@@ -66,49 +64,102 @@ Nov 01 2013 posted in code &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">On Sparse Matrix Storage Schemes (Novice-level)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-29T17:00:00+09:00" pubdate data-updated="true">Nov 29<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><p>In this post, I will discuss some simple storage schemas for sparse matrices. <br/>
+<strong>Disclaimer</strong>: This <em>informal</em> note is mainly based on my understanding so far, and for my learning purposes. For more accurate and detailed discussion, please refer to your reliable sources.</p>
 
-  
-  <h2>2013</h2>
+<p>A sparse matrix is a matrix, which is almost all <em>zeros</em>.
+In general, a <em>zero</em> can be thought as a meaningless value that we don&rsquo;t need to store.
+In other words, storing only nonzero items for a sparse matrix is enough. As a result, we can save a lot of memory space, or time to transfer compressed data over networks, etc. But, keep in mind that there might be a <strong>trade-off</strong> between memory efficiency and fast/easy access to nonzero items. We will discuss more about this problem in later posts (I hope so!).</p>
 
-<article>
-  
-<h1><a href="/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level/">On sparse matrix storage schemes (Novice-level)</a></h1>
-<time datetime="2013-11-29T17:00:00+09:00" pubdate><span class='month'>Nov</span> <span class='day'>29</span> <span class='year'>2013</span></time>
+<p>Let M denote a sparse matrix of size <code>R x C</code>. Assume that M contains <code>n</code> nonzero items, where <code>n</code> is significantly smaller than <code>R x C</code>. Below are three simple yet useful storage schemes:<br/>
+<strong>1. Coordinate Format (COO)</strong>    <br/>
+A list of triplets <code>(r,c,val)</code>, where <code>val = M[r][c]</code>.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/basic/'>basic</a>, <a class='category' href='/blog/categories/knowledge/'>knowledge</a></span>
-</footer>
+<p><strong>2. Compressed Sparse Row Format (CSR)</strong> <br/>
+Basically, all information is stored in 3 arrays:   <br/>
+  * <code>vals</code>: array of nonzero items in left-to-right, then top-to-bottom order. Hence, vals is a length <code>n</code> array. <br/>
+  * <code>col_ind</code>: array of column indices (0-based) of nonzero items. Hence, col_ind is a length <code>n</code> array. <br/>
+  * <code>rs_ind</code>: (index of first nonzero item of each row in vals array). Hence, rs_ind is a length <code>(R+1)</code> array. All nonzero items of M&rsquo;s i-th row lies in range <code>[rs_ind[i], rs_ind[i+1]-1]</code> of vals array. That is, if we denote <code>le = rs_ind[i], ri = rs_ind[i+1]-1</code>, then <code>vals[le..ri]</code> are all nonzero items in i-th row of M.</p>
 
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/11/01/hello-world/">Hello World</a></h1>
-<time datetime="2013-11-01T01:40:00+09:00" pubdate><span class='month'>Nov</span> <span class='day'>01</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/code-snippets/'>code snippets</a>, <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/test/'>test</a></span>
-</footer>
-
-
-</article>
-
+<p><strong>3. Compressed Sparse Column Format (CSC)</strong>  <br/>
+This format can be thought as CSR with the roles of row and column exchanged. Then, I will skip the explanation here.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Duong Nguyen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-29T17:00:00+09:00" pubdate data-updated="true">Nov 29<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/basic/'>basic</a>, <a class='category' href='/blog/categories/knowledge/'>knowledge</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog4fun.github.io/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level/" data-via="" data-counturl="http://blog4fun.github.io/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/11/01/hello-world/" title="Previous Post: Hello World">&laquo; Hello World</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
