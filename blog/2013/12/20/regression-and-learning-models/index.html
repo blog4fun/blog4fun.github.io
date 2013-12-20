@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>A little ninja blog</title>
+  <title>Regression and learning models - A little ninja blog</title>
   <meta name="author" content="Duong Nguyen">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog4fun.github.io">
+  <link rel="canonical" href="http://blog4fun.github.io/blog/2013/12/20/regression-and-learning-models">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="A little ninja blog" type="application/atom+xml">
@@ -77,15 +77,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/12/20/regression-and-learning-models/">Regression and Learning Models</a></h1>
+      <h1 class="entry-title">Regression and Learning Models</h1>
     
     
       <p class="meta">
@@ -108,7 +105,7 @@
   </header>
 
 
-  <div class="entry-content"><p>In this series of posts, I will <strong>informally</strong> discuss some basic things in machine learning theory which I&#8217;ve learnt through my own research experience, lectures, etc. Feel free to leave your comments and share your thoughts in the comment section below. </p>
+<div class="entry-content"><p>In this series of posts, I will <strong>informally</strong> discuss some basic things in machine learning theory which I&#8217;ve learnt through my own research experience, lectures, etc. Feel free to leave your comments and share your thoughts in the comment section below. </p>
 
 <p>In this very first post, let&#8217;s get started with one of the most standard problems in <em>supervised learning</em> setting, called <em>regression</em> and some common <em>learning models</em>.</p>
 
@@ -151,76 +148,16 @@ Simply put, every non-linear w.r.t parameters is called <strong>non-linear</stro
 
 <p><strong>To be continuted and updated later!</strong></p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level/">On Sparse Matrix Storage Schemes (Novice-level)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Duong Nguyen</span></span>
 
-<time datetime="2013-11-29T17:00:00+09:00" pubdate data-updated="true">Nov 29<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In this post, I will discuss some simple storage schemas for sparse matrices. <br />
-<strong>Disclaimer</strong>: This <em>informal</em> note is mainly based on my understanding so far, and for my learning purposes. For more accurate and detailed discussion, please refer to your reliable sources.</p>
-
-<p>A sparse matrix is a matrix, which is almost all <em>zeros</em>. 
-In general, a <em>zero</em> can be thought as a meaningless value that we don&#8217;t need to store.
-In other words, storing only nonzero items for a sparse matrix is enough. As a result, we can save a lot of memory space, or time to transfer compressed data over networks, etc. But, keep in mind that there might be a <strong>trade-off</strong> between memory efficiency and fast/easy access to nonzero items. We will discuss more about this problem in later posts (I hope so!).</p>
-
-<p>Let M denote a sparse matrix of size <code>R x C</code>. Assume that M contains <code>n</code> nonzero items, where <code>n</code> is significantly smaller than <code>R x C</code>. Below are three simple yet useful storage schemes:<br />
-<strong>1. Coordinate Format (COO)</strong>    <br />
-A list of triplets <code>(r,c,val)</code>, where <code>val = M[r][c]</code>.   </p>
-
-<p><strong>2. Compressed Sparse Row Format (CSR)</strong> <br />
-Basically, all information is stored in 3 arrays:   <br />
-  * <code>vals</code>: array of nonzero items in left-to-right, then top-to-bottom order. Hence, vals is a length <code>n</code> array. <br />
-  * <code>col_ind</code>: array of column indices (0-based) of nonzero items. Hence, col_ind is a length <code>n</code> array. <br />
-  * <code>rs_ind</code>: (index of first nonzero item of each row in vals array). Hence, rs_ind is a length <code>(R+1)</code> array. All nonzero items of M&#8217;s i-th row lies in range <code>[rs_ind[i], rs_ind[i+1]-1]</code> of vals array. That is, if we denote <code>le = rs_ind[i], ri = rs_ind[i+1]-1</code>, then <code>vals[le..ri]</code> are all nonzero items in i-th row of M.  </p>
-
-<p><strong>3. Compressed Sparse Column Format (CSC)</strong>  <br />
-This format can be thought as CSR with the roles of row and column exchanged. Then, I will skip the explanation here.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/01/hello-world/">Hello World</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -232,48 +169,36 @@ This format can be thought as CSR with the roles of row and column exchanged. Th
   
 
 
-<time datetime="2013-11-01T01:40:00+09:00" pubdate data-updated="true">Nov 1<span>st</span>, 2013</time>
-        
-      </p>
+<time datetime="2013-12-20T16:01:00+09:00" pubdate data-updated="true">Dec 20<span>th</span>, 2013</time>
+      
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>Today, I&#8217;m pretty excited to start blogging with a geeky, yet fun Octopress! <br />
-As a newbie, I&#8217;ll jot down a basic setting of Octopress-based blogs in this very first post.</p>
-
-<p><strong>1. Test sharing code snippets</strong>  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span> (test.py)</span> <a href="/downloads/code/test.py">download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="k">def</span> <span class="nf">insert_code</span><span class="p">():</span>
-</span><span class="line">	<span class="k">print</span> <span class="s">&quot;Sorry, it does not work!&quot;</span>
-</span><span class="line">	
-</span><span class="line"><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span class="line">	<span class="n">insert_code</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>Check out <a href="http://octopress.org/docs/plugins/codeblock/">this guide</a>.<br />
-<strong>UPDATE (2013/12/20):</strong> Having switched to kramdown instead of default rdiscount, all of my backtick, codeblock, etc. no longer work. For the moment, I don&#8217;t know why, so let&#8217;s take time and figure it out&#8230; </p>
-
-<p><strong>2. Markdown</strong> <br />
-A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">cheat-sheet</a>, and an online markdown <a href="http://www.ctrlshift.net/project/markdowneditor/">editor</a></p>
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog4fun.github.io/blog/2013/12/20/regression-and-learning-models/" data-via="" data-counturl="http://blog4fun.github.io/blog/2013/12/20/regression-and-learning-models/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level/" title="Previous Post: On sparse matrix storage schemes (Novice-level)">&laquo; On sparse matrix storage schemes (Novice-level)</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -298,7 +223,7 @@ A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/ntduong">@ntduong</a> on GitHub
@@ -330,6 +255,7 @@ A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown
 
   
 </aside>
+
 
     </div>
   </div>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: octopress | A little ninja blog]]></title>
   <link href="http://blog4fun.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2013-12-01T00:14:37+09:00</updated>
+  <updated>2013-12-20T19:18:54+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -18,21 +18,27 @@
     <link href="http://blog4fun.github.io/blog/2013/11/01/hello-world/"/>
     <updated>2013-11-01T01:40:00+09:00</updated>
     <id>http://blog4fun.github.io/blog/2013/11/01/hello-world</id>
-    <content type="html"><![CDATA[<p>Today, I&rsquo;m pretty excited to start blogging with a geeky, yet fun Octopress! <br/>
-As a newbie, I&rsquo;ll jot down a basic setting of Octopress-based blogs in this very first post.</p>
+    <content type="html"><![CDATA[<p>Today, I'm pretty excited to start blogging with a geeky, yet fun Octopress! <br />
+As a newbie, I'll jot down a basic setting of Octopress-based blogs in this very first post.</p>
 
-<p><strong>1. Test sharing code snippets</strong> <br/>
-``` python Test syntax of backtick code block</p>
+<p><strong>1. Test sharing code snippets</strong>  </p>
 
-<pre><code>while 1:
-    print "WoW"
-else:
-    print "Oops!"
-</code></pre>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (test.py)</span> <a href='/downloads/code/test.py'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">def</span> <span class="nf">insert_code</span><span class="p">():</span>
+</span><span class='line'>	<span class="k">print</span> <span class="s">&quot;Sorry, it does not work!&quot;</span>
+</span><span class='line'>	
+</span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span class='line'>	<span class="n">insert_code</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>   <br />
+Check out <a href="http://octopress.org/docs/plugins/codeblock/">this guide</a>.<br />
+<strong>UPDATE (2013/12/20):</strong> Having switched to kramdown instead of default rdiscount, all of my backtick, codeblock, etc. no longer work. For the moment, I don't know why, so let's take time and figure it out... </p>
 
-<p>```</p>
-
-<p><strong>2. Markdown</strong> <br/>
+<p><strong>2. Markdown</strong> <br />
 A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">cheat-sheet</a>, and an online markdown <a href="http://www.ctrlshift.net/project/markdowneditor/">editor</a></p>
 ]]></content>
   </entry>

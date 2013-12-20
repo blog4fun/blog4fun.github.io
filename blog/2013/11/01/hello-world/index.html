@@ -9,7 +9,7 @@
   <meta name="author" content="Duong Nguyen">
 
   
-  <meta name="description" content="Today, I&rsquo;m pretty excited to start blogging with a geeky, yet fun Octopress! As a newbie, I&rsquo;ll jot down a basic setting of Octopress- &hellip;">
+  <meta name="description" content="Today, I&#8217;m pretty excited to start blogging with a geeky, yet fun Octopress! As a newbie, I&#8217;ll jot down a basic setting of Octopress- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -29,7 +29,21 @@
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [ ['$', '$'], ["\\(", "\\)"] ],
+        displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+      //,
+      //displayAlign: "left",
+      //displayIndent: "2em"
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
   
 
 </head>
@@ -91,23 +105,27 @@
   </header>
 
 
-<div class="entry-content"><p>Today, I&rsquo;m pretty excited to start blogging with a geeky, yet fun Octopress! <br/>
-As a newbie, I&rsquo;ll jot down a basic setting of Octopress-based blogs in this very first post.</p>
+<div class="entry-content"><p>Today, I&#8217;m pretty excited to start blogging with a geeky, yet fun Octopress! <br />
+As a newbie, I&#8217;ll jot down a basic setting of Octopress-based blogs in this very first post.</p>
 
-<p><strong>1. Test sharing code snippets</strong></p>
+<p><strong>1. Test sharing code snippets</strong>  </p>
 
-<figure class='code'><figcaption><span>Test syntax of backtick code block</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
-</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;WoW&quot;</span>
-</span><span class='line'><span class="k">else</span><span class="p">:</span>
-</span><span class='line'>  <span class="k">print</span> <span class="s">&quot;Oops!&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span> (test.py)</span> <a href="/downloads/code/test.py">download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="k">def</span> <span class="nf">insert_code</span><span class="p">():</span>
+</span><span class="line">	<span class="k">print</span> <span class="s">&quot;Sorry, it does not work!&quot;</span>
+</span><span class="line">	
+</span><span class="line"><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span class="line">	<span class="n">insert_code</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>Check out <a href="http://octopress.org/docs/plugins/codeblock/">this guide</a>.<br />
+<strong>UPDATE (2013/12/20):</strong> Having switched to kramdown instead of default rdiscount, all of my backtick, codeblock, etc. no longer work. For the moment, I don&#8217;t know why, so let&#8217;s take time and figure it out&#8230; </p>
 
-
-<p><strong>2. Markdown</strong> <br/>
+<p><strong>2. Markdown</strong> <br />
 A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">cheat-sheet</a>, and an online markdown <a href="http://www.ctrlshift.net/project/markdowneditor/">editor</a></p>
 </div>
 
@@ -172,6 +190,10 @@ A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/12/20/regression-and-learning-models/">Regression and Learning Models</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level/">On Sparse Matrix Storage Schemes (Novice-level)</a>

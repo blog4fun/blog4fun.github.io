@@ -29,7 +29,21 @@
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [ ['$', '$'], ["\\(", "\\)"] ],
+        displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+      //,
+      //displayAlign: "left",
+      //displayIndent: "2em"
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
   
 
 </head>
@@ -91,24 +105,24 @@
   </header>
 
 
-<div class="entry-content"><p>In this post, I will discuss some simple storage schemas for sparse matrices. <br/>
+<div class="entry-content"><p>In this post, I will discuss some simple storage schemas for sparse matrices. <br />
 <strong>Disclaimer</strong>: This <em>informal</em> note is mainly based on my understanding so far, and for my learning purposes. For more accurate and detailed discussion, please refer to your reliable sources.</p>
 
-<p>A sparse matrix is a matrix, which is almost all <em>zeros</em>.
-In general, a <em>zero</em> can be thought as a meaningless value that we don&rsquo;t need to store.
+<p>A sparse matrix is a matrix, which is almost all <em>zeros</em>. 
+In general, a <em>zero</em> can be thought as a meaningless value that we don&#8217;t need to store.
 In other words, storing only nonzero items for a sparse matrix is enough. As a result, we can save a lot of memory space, or time to transfer compressed data over networks, etc. But, keep in mind that there might be a <strong>trade-off</strong> between memory efficiency and fast/easy access to nonzero items. We will discuss more about this problem in later posts (I hope so!).</p>
 
-<p>Let M denote a sparse matrix of size <code>R x C</code>. Assume that M contains <code>n</code> nonzero items, where <code>n</code> is significantly smaller than <code>R x C</code>. Below are three simple yet useful storage schemes:<br/>
-<strong>1. Coordinate Format (COO)</strong>    <br/>
-A list of triplets <code>(r,c,val)</code>, where <code>val = M[r][c]</code>.</p>
+<p>Let M denote a sparse matrix of size <code>R x C</code>. Assume that M contains <code>n</code> nonzero items, where <code>n</code> is significantly smaller than <code>R x C</code>. Below are three simple yet useful storage schemes:<br />
+<strong>1. Coordinate Format (COO)</strong>    <br />
+A list of triplets <code>(r,c,val)</code>, where <code>val = M[r][c]</code>.   </p>
 
-<p><strong>2. Compressed Sparse Row Format (CSR)</strong> <br/>
-Basically, all information is stored in 3 arrays:   <br/>
-  * <code>vals</code>: array of nonzero items in left-to-right, then top-to-bottom order. Hence, vals is a length <code>n</code> array. <br/>
-  * <code>col_ind</code>: array of column indices (0-based) of nonzero items. Hence, col_ind is a length <code>n</code> array. <br/>
-  * <code>rs_ind</code>: (index of first nonzero item of each row in vals array). Hence, rs_ind is a length <code>(R+1)</code> array. All nonzero items of M&rsquo;s i-th row lies in range <code>[rs_ind[i], rs_ind[i+1]-1]</code> of vals array. That is, if we denote <code>le = rs_ind[i], ri = rs_ind[i+1]-1</code>, then <code>vals[le..ri]</code> are all nonzero items in i-th row of M.</p>
+<p><strong>2. Compressed Sparse Row Format (CSR)</strong> <br />
+Basically, all information is stored in 3 arrays:   <br />
+  * <code>vals</code>: array of nonzero items in left-to-right, then top-to-bottom order. Hence, vals is a length <code>n</code> array. <br />
+  * <code>col_ind</code>: array of column indices (0-based) of nonzero items. Hence, col_ind is a length <code>n</code> array. <br />
+  * <code>rs_ind</code>: (index of first nonzero item of each row in vals array). Hence, rs_ind is a length <code>(R+1)</code> array. All nonzero items of M&#8217;s i-th row lies in range <code>[rs_ind[i], rs_ind[i+1]-1]</code> of vals array. That is, if we denote <code>le = rs_ind[i], ri = rs_ind[i+1]-1</code>, then <code>vals[le..ri]</code> are all nonzero items in i-th row of M.  </p>
 
-<p><strong>3. Compressed Sparse Column Format (CSC)</strong>  <br/>
+<p><strong>3. Compressed Sparse Column Format (CSC)</strong>  <br />
 This format can be thought as CSR with the roles of row and column exchanged. Then, I will skip the explanation here.</p>
 </div>
 
@@ -162,6 +176,8 @@ This format can be thought as CSR with the roles of row and column exchanged. Th
         <a class="basic-alignment left" href="/blog/2013/11/01/hello-world/" title="Previous Post: Hello World">&laquo; Hello World</a>
       
       
+        <a class="basic-alignment right" href="/blog/2013/12/20/regression-and-learning-models/" title="Next Post: Regression and learning models">Regression and learning models &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -173,6 +189,10 @@ This format can be thought as CSR with the roles of row and column exchanged. Th
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/12/20/regression-and-learning-models/">Regression and Learning Models</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level/">On Sparse Matrix Storage Schemes (Novice-level)</a>
