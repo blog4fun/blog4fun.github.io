@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>A little ninja blog</title>
+  <title>The best bedtime story - What is Unicode? - A little ninja blog</title>
   <meta name="author" content="Duong Nguyen">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog4fun.github.io">
+  <link rel="canonical" href="http://blog4fun.github.io/blog/2013/12/21/the-best-bedtime-story-what-is-unicode">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="A little ninja blog" type="application/atom+xml">
@@ -77,15 +77,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/12/21/the-best-bedtime-story-what-is-unicode/">The Best Bedtime Story - What Is Unicode?</a></h1>
+      <h1 class="entry-title">The Best Bedtime Story - What Is Unicode?</h1>
     
     
       <p class="meta">
@@ -108,7 +105,7 @@
   </header>
 
 
-  <div class="entry-content"><p>To prevent another sleepless night, I decided to read something on Unicode, which was one of the most confusing things to me at times. In this post, I&#8217;m going to share my bedtime story with you. <br />
+<div class="entry-content"><p>To prevent another sleepless night, I decided to read something on Unicode, which was one of the most confusing things to me at times. In this post, I&#8217;m going to share my bedtime story with you. <br />
 You might guess from its name, &#8220;Unicode&#8221;, it&#8217;s kind of universal code things. You&#8217;re nearly true. As you may know, there are many writing systems in the world, each comes with different character sets. For me, that diversity is great, isn&#8217;t it? There would be no problem at all until people started using computers to work with characters. While computers only understand 0-1 language, the ways of translating human characters into 0-1 bits cause troubles. To be more precise, the same 0-1 bit pattern can mean different characters in different writing systems. Let&#8217;s say, your friend send you an email written in Japanese with some mysterious encoding scheme, and unfortunately your computer don&#8217;t know what encoding scheme that email used. As a result, it cannot decode the email correctly and you might end up seeing something like small boxes, question marks, or some funny characters that don&#8217;t make much sense. Well, that was a big headache, and soon we need a universal character sets, that include every reasonable writing system on Earth. So far, I&#8217;m glossed over some concepts, like encoding/decoding scheme.    <br />
 + An encoding scheme, e.g., ASCII, Shift-JIS, is simply a mapping from characters to 0-1 bit patterns. Again, why do we need 0-1 bit patterns? Unless we can make computers understand our natural languages, our messages containing  many characters still need to be converted into 0-1 bit sequences. And then, computers can be able to store and handle them correctly.   <br />
 + A decoding scheme is about the opposite way of encoding. Simply put, it specifies how to translate 0-1 bit sequences back to characters.   <br />
@@ -127,99 +124,16 @@ Let&#8217;s digress to a similar story, about encryption/decryption. You encrypt
 <p>Until next time, good bye!    </p>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/20/regression-and-learning-models/">Regression and Learning Models</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Duong Nguyen</span></span>
 
-<time datetime="2013-12-20T16:01:00+09:00" pubdate data-updated="true">Dec 20<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In this series of posts, I will <strong>informally</strong> discuss some basic things in machine learning theory which I&#8217;ve learnt through my own research experience, lectures, etc. Feel free to leave your comments and share your thoughts in the comment section below. </p>
-
-<p>In this very first post, let&#8217;s get started with one of the most standard problems in <em>supervised learning</em> setting, called <em>regression</em> and some common <em>learning models</em>.</p>
-
-<h3 id="regression-as-functional-approximation">Regression as functional approximation</h3>
-<p>We consider the problem of estimating an <em>unknown</em> function <script type="math/tex">f(x)</script>, using a set of samples <script type="math/tex">\{(x_i, y_i)\}</script>, where
-<script type="math/tex">y_i = f(x_i) + e_i</script>, and <script type="math/tex">e_i</script> is the <em>i.i.d</em> Gaussian noises. This is a common formulation of regression problem in standard supervised learning setup, where <script type="math/tex">\{(x_i, y_i)\}</script> is often mentioned as <em>training</em> samples, $x_i \in \mathcal{R}^d$ is d-dimensional input vector, and $y_i$ is its corresponding output. For simplicity, we consider only the case where $y_i$ is scalar. <br />
-One way to solve the problem above is to search for the <strong>true</strong> function <script type="math/tex">f(x)</script> in a set of functions that is parameterized by parameter vector <script type="math/tex">\theta</script> (a.k.a., a parametric model indexed by parameter <script type="math/tex">\theta</script>). Obviously, if we don&#8217;t have any prior knowledge (about the form of $f(x)$) other than training samples, it&#8217;s almost impossible to obtain exact true function $f(x)$. Instead, we try to find a function in a given model which best approximates $f(x)$. That&#8217;s why we can see regression as functional approximation problem. We often &#8220;learn&#8221; the parameter $\theta$ from training samples by casting our problem into an optimization problem, e.g., minimizing the approximation error. An estimation of $f(x)$, denoted $\hat{f}(x)$ can be obtained by substituting optimized parameter into the model formulation. I will return to this point in later posts. <br />
-Below, we discuss some commonly used <strong>parametric models</strong>, with general form
-<script type="math/tex">\{f(x; \boldsymbol{\theta})~|~ \boldsymbol{\theta} = (\theta_1,...,\theta_b)^\top\}</script>.</p>
-
-<h3 id="learning-model">Learning model</h3>
-<p><strong>1. Linear model</strong>   <br />
-Instead of a <em>linear-in-input-feature</em> model, which is often introduced in some stats/ML introductory books/courses, we consider a more general <strong>linear-in-parameter</strong> model:   </p>
-
-<p><script type="math/tex">\:\:\:\:\:\:\:\:f(x; \boldsymbol{\theta}) = \sum_{j=1}^b\theta_j\psi_j(x)</script>, where <script type="math/tex">x \in \mathcal{R}^d</script>.  </p>
-
-<p>This <em>linear-in-parameter</em> model includes the former as a special case. We might think this type of model is quite limited due to its linearity, but actually it&#8217;s quite flexible. Particularly, we can customize the basis functions ${\psi_j(x)}$ as freely as we want based on specific problems. For examples, polynomial basis functions or trigonometric basis functions are common choices when d = 1. For high dimensional case, some powerful linear models can be used:  <br />
-+ Multiplicative model: It can model very complicated functions in high dimension, but due to very large number of parameters (exponential order w.r.t to the dimensionality d), it can only be applied to <em>not-so-high</em> dimensional case.</p>
-
-<p><script type="math/tex">f(x; \boldsymbol{\theta}) = \sum_{j_1}...\sum_{j_d}\theta_{j_1,...,j_d}\psi_{j_1}(x^{(1)})...\psi_{j_d}(x^{(d)})</script>.</p>
-
-<ul>
-  <li>Additive model: much simpler with smaller number of parameters (linear order w.r.t to the dimensionality d) than multiplicative model. Obviously, its expressiveness is more limited than multiplicative model. </li>
-</ul>
-
-<p><script type="math/tex">\:\:\:\:\:\:\:\:\:\:f(x; \boldsymbol{\theta}) = \sum_{k=1}^d\sum_j \theta_{k,j}\psi_j(x^{(k)})</script>.</p>
-
-<p><strong>2. Kernel model</strong> </p>
-
-<p><script type="math/tex">\:\:\:\:\:\:\:\:\:\:f(x; \boldsymbol{\theta}) = \sum_{j=1}^n \theta_{j} K(x, x_j)</script>.</p>
-
-<p>It is linear-in-parameter but unlike the linear model discussed above, its basis functions depend on training samples <script type="math/tex">\{x_j\}</script>.    <br />
-+ The number of parameters is generally independent of the dimensionality d of input. <br />
-+ It can be seen as a linear-in-parameter model.  <br />
-+ It depends on the training samples, and thus its properties is a bit different from ordinary linear model. That&#8217;s why it&#8217;s also known as <strong>non-parametric</strong> model. Discussion on non-parametric model is beyond the scope of this post. Feel free to refer to [books] on this topic. In this post, we do not go into the detailed and complicated analysis, then unless otherwise stated, we consider kernel model as a specific case of linear model. <br />
-+ It can capture and incoporate characteristics of training samples. This might be useful, but on the other hand, it might be sensitive to the noisy training samples.</p>
-
-<p><strong>3. Non-linear model</strong>    <br />
-Simply put, every non-linear w.r.t parameters is called <strong>non-linear</strong> model. For examples, hierachical model (a multi-layer model in perceptron, neuron network, etc.) is well-known, given the popularity of <strong>deep learning</strong>.</p>
-
-<p><strong>To be continuted and updated later!</strong></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level/">On Sparse Matrix Storage Schemes (Novice-level)</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -231,102 +145,42 @@ Simply put, every non-linear w.r.t parameters is called <strong>non-linear</stro
   
 
 
-<time datetime="2013-11-29T17:00:00+09:00" pubdate data-updated="true">Nov 29<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>In this post, I will discuss some simple storage schemas for sparse matrices. <br />
-<strong>Disclaimer</strong>: This <em>informal</em> note is mainly based on my understanding so far, and for my learning purposes. For more accurate and detailed discussion, please refer to your reliable sources.</p>
-
-<p>A sparse matrix is a matrix, which is almost all <em>zeros</em>. 
-In general, a <em>zero</em> can be thought as a meaningless value that we don&#8217;t need to store.
-In other words, storing only nonzero items for a sparse matrix is enough. As a result, we can save a lot of memory space, or time to transfer compressed data over networks, etc. But, keep in mind that there might be a <strong>trade-off</strong> between memory efficiency and fast/easy access to nonzero items. We will discuss more about this problem in later posts (I hope so!).</p>
-
-<p>Let M denote a sparse matrix of size <code>R x C</code>. Assume that M contains <code>n</code> nonzero items, where <code>n</code> is significantly smaller than <code>R x C</code>. Below are three simple yet useful storage schemes:<br />
-<strong>1. Coordinate Format (COO)</strong>    <br />
-A list of triplets <code>(r,c,val)</code>, where <code>val = M[r][c]</code>.   </p>
-
-<p><strong>2. Compressed Sparse Row Format (CSR)</strong> <br />
-Basically, all information is stored in 3 arrays:   <br />
-  * <code>vals</code>: array of nonzero items in left-to-right, then top-to-bottom order. Hence, vals is a length <code>n</code> array. <br />
-  * <code>col_ind</code>: array of column indices (0-based) of nonzero items. Hence, col_ind is a length <code>n</code> array. <br />
-  * <code>rs_ind</code>: (index of first nonzero item of each row in vals array). Hence, rs_ind is a length <code>(R+1)</code> array. All nonzero items of M&#8217;s i-th row lies in range <code>[rs_ind[i], rs_ind[i+1]-1]</code> of vals array. That is, if we denote <code>le = rs_ind[i], ri = rs_ind[i+1]-1</code>, then <code>vals[le..ri]</code> are all nonzero items in i-th row of M.  </p>
-
-<p><strong>3. Compressed Sparse Column Format (CSC)</strong>  <br />
-This format can be thought as CSR with the roles of row and column exchanged. Then, I will skip the explanation here.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2013-12-21T18:10:00+09:00" pubdate data-updated="true">Dec 21<span>st</span>, 2013</time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/01/hello-world/">Hello World</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/unicode/'>Unicode,</a>, <a class='category' href='/blog/categories/character/'>character</a>, <a class='category' href='/blog/categories/encoding/'>encoding,</a>, <a class='category' href='/blog/categories/sets/'>sets</a>
+  
+</span>
 
 
-<time datetime="2013-11-01T01:40:00+09:00" pubdate data-updated="true">Nov 1<span>st</span>, 2013</time>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>Today, I&#8217;m pretty excited to start blogging with a geeky, yet fun Octopress! <br />
-As a newbie, I&#8217;ll jot down a basic setting of Octopress-based blogs in this very first post.</p>
-
-<p><strong>1. Test sharing code snippets</strong>  </p>
-
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span> (test.py)</span> <a href="/downloads/code/test.py">download</a></figcaption>
- <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="k">def</span> <span class="nf">insert_code</span><span class="p">():</span>
-</span><span class="line">	<span class="k">print</span> <span class="s">&quot;Sorry, it does not work!&quot;</span>
-</span><span class="line">	
-</span><span class="line"><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span class="line">	<span class="n">insert_code</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
-<p>Check out <a href="http://octopress.org/docs/plugins/codeblock/">this guide</a>.<br />
-<strong>UPDATE (2013/12/20):</strong> Having switched to kramdown instead of default rdiscount, all of my backtick, codeblock, etc. no longer work. For the moment, I don&#8217;t know why, so let&#8217;s take time and figure it out&#8230; </p>
-
-<p><strong>2. Markdown</strong> <br />
-A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">cheat-sheet</a>, and an online markdown <a href="http://www.ctrlshift.net/project/markdowneditor/">editor</a></p>
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog4fun.github.io/blog/2013/12/21/the-best-bedtime-story-what-is-unicode/" data-via="" data-counturl="http://blog4fun.github.io/blog/2013/12/21/the-best-bedtime-story-what-is-unicode/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/20/regression-and-learning-models/" title="Previous Post: Regression and learning models">&laquo; Regression and learning models</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -355,7 +209,7 @@ A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/ntduong">@ntduong</a> on GitHub
@@ -387,6 +241,7 @@ A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown
 
   
 </aside>
+
 
     </div>
   </div>

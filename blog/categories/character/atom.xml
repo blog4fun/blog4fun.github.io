@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: character | A little ninja blog]]></title>
+  <link href="http://blog4fun.github.io/blog/categories/character/atom.xml" rel="self"/>
+  <link href="http://blog4fun.github.io/"/>
+  <updated>2013-12-21T19:21:33+09:00</updated>
+  <id>http://blog4fun.github.io/</id>
+  <author>
+    <name><![CDATA[Duong Nguyen]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The best bedtime story - What is Unicode?]]></title>
+    <link href="http://blog4fun.github.io/blog/2013/12/21/the-best-bedtime-story-what-is-unicode/"/>
+    <updated>2013-12-21T18:10:00+09:00</updated>
+    <id>http://blog4fun.github.io/blog/2013/12/21/the-best-bedtime-story-what-is-unicode</id>
+    <content type="html"><![CDATA[<p>To prevent another sleepless night, I decided to read something on Unicode, which was one of the most confusing things to me at times. In this post, I'm going to share my bedtime story with you. <br />
+You might guess from its name, "Unicode", it's kind of universal code things. You're nearly true. As you may know, there are many writing systems in the world, each comes with different character sets. For me, that diversity is great, isn't it? There would be no problem at all until people started using computers to work with characters. While computers only understand 0-1 language, the ways of translating human characters into 0-1 bits cause troubles. To be more precise, the same 0-1 bit pattern can mean different characters in different writing systems. Let's say, your friend send you an email written in Japanese with some mysterious encoding scheme, and unfortunately your computer don't know what encoding scheme that email used. As a result, it cannot decode the email correctly and you might end up seeing something like small boxes, question marks, or some funny characters that don't make much sense. Well, that was a big headache, and soon we need a universal character sets, that include every reasonable writing system on Earth. So far, I'm glossed over some concepts, like encoding/decoding scheme.    <br />
++ An encoding scheme, e.g., ASCII, Shift-JIS, is simply a mapping from characters to 0-1 bit patterns. Again, why do we need 0-1 bit patterns? Unless we can make computers understand our natural languages, our messages containing  many characters still need to be converted into 0-1 bit sequences. And then, computers can be able to store and handle them correctly.   <br />
++ A decoding scheme is about the opposite way of encoding. Simply put, it specifies how to translate 0-1 bit sequences back to characters.   <br />
+Let's digress to a similar story, about encryption/decryption. You encrypt your text by some encryption scheme. To get back your original text, you need a proper decryption scheme to decrypt the cipher text. A cipher text encrypted by a given algorithm need a corresponding decryption algorithm to decipher the encrypted text. That means basically a pair of encryption/decryption algorithms must agree on some internal protocol. Getting back to our main topic, a text encoded in a given scheme A is unlikely to be decoded correctly with different scheme B, unless they share the same character sets and the mapping between charaters and 0-1 bit sequences. </p>
+
+<p>Some people, including me, had been believed that Unicode is just 16-bit code where each character takes 16 bits and therefore there are $2^{16} = 65536$ possible characters in total. But, <strong>THIS IS NOT CORRECT</strong>. In fact, Unicode is <strong>NOT</strong> encoding/decoding scheme, it's simply a mapping from characters to somehow conceptual <strong>code-points</strong>. How those code-points are in turn represented in 0-1 bit patterns is a different story and that's job of encoding/decoding scheme. So, why do we need to invent Unicode? The idea is that every character in the universal character sets is mapped to a magic number, a.k.a., code-point. For example, the English letter 'A' is assigned a code-point U+0041. You can find the detailed mapping in <a href="http://www.unicode.org/">Unicode website</a> or by <em>charmap</em> utility in Windows, etc. With Unicode, we not only obtain an unique mapping between characters and code-points, but also impose <strong>no limit</strong> on the number of letters that Unicode can define. It can be much larger than 65536. So far, so good. Everything is just a bunch of code-points. But, wait...how to store those code-points in 0-1 bit sequences, that's where encodings come in.</p>
+
+<p>The very first idea for Unicode encoding is to store each code-point in two bytes. Also, here comes high-endian and low-endian stories. It's again another story, so let's leave it for another post. <strong>Fixed two-byte</strong> scheme (a.k.a, UCS-2, UTF-16) seems to be a good solution. However, given that English with 26 simple alphabetical characters is a universal natural language, it seems that we're going to waste much storage for many redundant zeros in this fixed two-byte encoding scheme. Thus, a brilliant concept, UTF-8 was invented. Put simply, in UTF-8, we store characters by variable-length bytes. Every code-point from 0-127 is stored in a single byte. Only code-points 128 and above are stored using 2, 3, and up to 6 bytes. This UTF-8 solution seems to be better than fixed two-byte solution, at least in terms of storage, doesn't it? There are also other encoding schemes for Unicode, e.g., UTF-7, UTF-32. Note that UTF-7, 8, 16, and 32 all can store any code-point correctly.</p>
+
+<p>Currently, there are still hundreds of traditional encodings which can only store some code-points correctly and change all the other code-points into question marks. Some popular encodings of English text are Windows-1252, Latin-1. As long as people still use some old-school encoding schemes that can't store all code-points, we might still see mysterious question marks out there. </p>
+
+<p>OK, this post has gone for so long, and it's time to sleep well. You may forget everything I've talked so far. But please keep in mind one important point. <strong>There is no such thing as plain text. In other words, it does not make sense to have text unless you know what encoding scheme was used</strong>. It's like you have cipher text without knowing how to decrypt it.</p>
+
+<p>Last question, have you ever been wondering why your smart browsers can decode the 0-1 bit sequences into meaningful web pages. Based on what we've talked so far, browsers must know encoding schemes of the web pages before decoding them. That information about encoding schemes is often stored in a HTTP header, called <strong>Content-Type</strong>, and also in a <strong>meta tag</strong> in HTML files itself. But there are still a lot of web pages coming without any encoding scheme information. They leave the browsers no choice other than guessing encoding schemes. The algorithms that some popular browsers (Firefox, Chrome, IE, etc.,) use to guess encoding schemes are getting quite sophisticated, and do work well, but not perfectly. That's why you still see question marks or funny characters some day. To end this bored-stiff post, I'd like to ask web page writers a favor: <strong>Don't forget to put the encoding scheme you use in your HTML file!</strong></p>
+
+<p>Until next time, good bye!    </p>
+
+]]></content>
+  </entry>
+  
+</feed>
