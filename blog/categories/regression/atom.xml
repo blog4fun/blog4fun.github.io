@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: regression, | A little ninja blog]]></title>
+  <link href="http://blog4fun.github.io/blog/categories/regression/atom.xml" rel="self"/>
+  <link href="http://blog4fun.github.io/"/>
+  <updated>2013-12-21T23:24:42+09:00</updated>
+  <id>http://blog4fun.github.io/</id>
+  <author>
+    <name><![CDATA[Duong Nguyen]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Regression and learning models]]></title>
+    <link href="http://blog4fun.github.io/blog/2013/12/20/regression-and-learning-models/"/>
+    <updated>2013-12-20T16:01:00+09:00</updated>
+    <id>http://blog4fun.github.io/blog/2013/12/20/regression-and-learning-models</id>
+    <content type="html"><![CDATA[<p>In this series of posts, I will <strong>informally</strong> discuss some basic things in machine learning theory which I've learnt through my own research experience, lectures, etc. Feel free to leave your comments and share your thoughts in the comment section below. </p>
+
+<p>In this very first post, let's get started with one of the most standard problems in <em>supervised learning</em> setting, called <em>regression</em> and some common <em>learning models</em>.</p>
+
+<h3 id="regression-as-functional-approximation">Regression as functional approximation</h3>
+<p>We consider the problem of estimating an <em>unknown</em> function <script type="math/tex">f(x)</script>, using a set of samples <script type="math/tex">\{(x_i, y_i)\}</script>, where
+<script type="math/tex">y_i = f(x_i) + e_i</script>, and <script type="math/tex">e_i</script> is the <em>i.i.d</em> Gaussian noises. This is a common formulation of regression problem in standard supervised learning setup, where <script type="math/tex">\{(x_i, y_i)\}</script> is often mentioned as <em>training</em> samples, $x_i \in \mathcal{R}^d$ is d-dimensional input vector, and $y_i$ is its corresponding output. For simplicity, we consider only the case where $y_i$ is scalar. <br />
+One way to solve the problem above is to search for the <strong>true</strong> function <script type="math/tex">f(x)</script> in a set of functions that is parameterized by parameter vector <script type="math/tex">\theta</script> (a.k.a., a parametric model indexed by parameter <script type="math/tex">\theta</script>). Obviously, if we don't have any prior knowledge (about the form of $f(x)$) other than training samples, it's almost impossible to obtain exact true function $f(x)$. Instead, we try to find a function in a given model which best approximates $f(x)$. That's why we can see regression as functional approximation problem. We often "learn" the parameter $\theta$ from training samples by casting our problem into an optimization problem, e.g., minimizing the approximation error. An estimation of $f(x)$, denoted $\hat{f}(x)$ can be obtained by substituting optimized parameter into the model formulation. I will return to this point in later posts. <br />
+Below, we discuss some commonly used <strong>parametric models</strong>, with general form
+<script type="math/tex">\{f(x; \boldsymbol{\theta})~|~ \boldsymbol{\theta} = (\theta_1,...,\theta_b)^\top\}</script>.</p>
+
+<h3 id="learning-model">Learning model</h3>
+<p><strong>1. Linear model</strong>   <br />
+Instead of a <em>linear-in-input-feature</em> model, which is often introduced in some stats/ML introductory books/courses, we consider a more general <strong>linear-in-parameter</strong> model:   </p>
+
+<p><script type="math/tex">\:\:\:\:\:\:\:\:f(x; \boldsymbol{\theta}) = \sum_{j=1}^b\theta_j\psi_j(x)</script>, where <script type="math/tex">x \in \mathcal{R}^d</script>.  </p>
+
+<p>This <em>linear-in-parameter</em> model includes the former as a special case. We might think this type of model is quite limited due to its linearity, but actually it's quite flexible. Particularly, we can customize the basis functions ${\psi_j(x)}$ as freely as we want based on specific problems. For examples, polynomial basis functions or trigonometric basis functions are common choices when d = 1. For high dimensional case, some powerful linear models can be used:  <br />
++ Multiplicative model: It can model very complicated functions in high dimension, but due to very large number of parameters (exponential order w.r.t to the dimensionality d), it can only be applied to <em>not-so-high</em> dimensional case.</p>
+
+<p><script type="math/tex">f(x; \boldsymbol{\theta}) = \sum_{j_1}...\sum_{j_d}\theta_{j_1,...,j_d}\psi_{j_1}(x^{(1)})...\psi_{j_d}(x^{(d)})</script>.</p>
+
+<ul>
+  <li>Additive model: much simpler with smaller number of parameters (linear order w.r.t to the dimensionality d) than multiplicative model. Obviously, its expressiveness is more limited than multiplicative model. </li>
+</ul>
+
+<p><script type="math/tex">\:\:\:\:\:\:\:\:\:\:f(x; \boldsymbol{\theta}) = \sum_{k=1}^d\sum_j \theta_{k,j}\psi_j(x^{(k)})</script>.</p>
+
+<p><strong>2. Kernel model</strong> </p>
+
+<p><script type="math/tex">\:\:\:\:\:\:\:\:\:\:f(x; \boldsymbol{\theta}) = \sum_{j=1}^n \theta_{j} K(x, x_j)</script>.</p>
+
+<p>It is linear-in-parameter but unlike the linear model discussed above, its basis functions depend on training samples <script type="math/tex">\{x_j\}</script>.    <br />
++ The number of parameters is generally independent of the dimensionality d of input. <br />
++ It can be seen as a linear-in-parameter model.  <br />
++ It depends on the training samples, and thus its properties is a bit different from ordinary linear model. That's why it's also known as <strong>non-parametric</strong> model. Discussion on non-parametric model is beyond the scope of this post. Feel free to refer to [books] on this topic. In this post, we do not go into the detailed and complicated analysis, then unless otherwise stated, we consider kernel model as a specific case of linear model. <br />
++ It can capture and incoporate characteristics of training samples. This might be useful, but on the other hand, it might be sensitive to the noisy training samples.</p>
+
+<p><strong>3. Non-linear model</strong>    <br />
+Simply put, every non-linear w.r.t parameters is called <strong>non-linear</strong> model. For examples, hierachical model (a multi-layer model in perceptron, neuron network, etc.) is well-known, given the popularity of <strong>deep learning</strong>.</p>
+
+<p><strong>To be continuted and updated later!</strong></p>
+]]></content>
+  </entry>
+  
+</feed>
