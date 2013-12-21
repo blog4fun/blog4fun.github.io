@@ -4,7 +4,7 @@
   <title><![CDATA[Category: github | A little ninja blog]]></title>
   <link href="http://blog4fun.github.io/blog/categories/github/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2013-12-21T23:24:42+09:00</updated>
+  <updated>2013-12-21T23:56:15+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -35,8 +35,9 @@ As a newbie, I'll jot down a basic setting of Octopress-based blogs in this very
 </span><span class='line'><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
 </span><span class='line'>	<span class="n">insert_code</span><span class="p">()</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>   <br />
-Check out <a href="http://octopress.org/docs/plugins/codeblock/">this guide</a>.<br />
-<strong>UPDATE (2013/12/20):</strong> Having switched to kramdown instead of default rdiscount, all of my backtick, codeblock, etc. no longer work. For the moment, I don't know why, so let's take time and figure it out... </p>
+Check out <a href="http://octopress.org/docs/plugins/codeblock/">this guide</a>.  </p>
+
+<p><strong>UPDATE (2013/12/20):</strong> Having switched to <strong>kramdown</strong> (mainly for LaTeX) from default Rdiscount, suddenly all of my backticks, codeblocks, syntax highlighting no longer work. For now, I have no idea, so let's take time and figure it out... </p>
 
 <p><strong>2. Markdown</strong> <br />
 A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">cheat-sheet</a>, and an online markdown <a href="http://www.ctrlshift.net/project/markdowneditor/">editor</a></p>

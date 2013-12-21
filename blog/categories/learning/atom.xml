@@ -4,7 +4,7 @@
   <title><![CDATA[Category: learning, | A little ninja blog]]></title>
   <link href="http://blog4fun.github.io/blog/categories/learning/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2013-12-21T23:24:42+09:00</updated>
+  <updated>2013-12-21T23:56:15+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -53,7 +53,7 @@ Instead of a <em>linear-in-input-feature</em> model, which is often introduced i
 <p>It is linear-in-parameter but unlike the linear model discussed above, its basis functions depend on training samples <script type="math/tex">\{x_j\}</script>.    <br />
 + The number of parameters is generally independent of the dimensionality d of input. <br />
 + It can be seen as a linear-in-parameter model.  <br />
-+ It depends on the training samples, and thus its properties is a bit different from ordinary linear model. That's why it's also known as <strong>non-parametric</strong> model. Discussion on non-parametric model is beyond the scope of this post. Feel free to refer to [books] on this topic. In this post, we do not go into the detailed and complicated analysis, then unless otherwise stated, we consider kernel model as a specific case of linear model. <br />
++ It depends on the training samples, and thus its properties is a bit different from ordinary linear model. That's why it's also known as <strong>non-parametric</strong> model. Discussion on non-parametric model is beyond the scope of this post. In this post, we do not go into the detailed and complicated analysis, then unless otherwise stated, we consider kernel model as a specific case of linear model. <br />
 + It can capture and incoporate characteristics of training samples. This might be useful, but on the other hand, it might be sensitive to the noisy training samples.</p>
 
 <p><strong>3. Non-linear model</strong>    <br />
