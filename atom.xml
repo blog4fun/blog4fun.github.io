@@ -4,7 +4,7 @@
   <title><![CDATA[A little ninja blog]]></title>
   <link href="http://blog4fun.github.io/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2013-12-21T23:56:15+09:00</updated>
+  <updated>2014-01-12T17:14:27+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -14,7 +14,90 @@
 
   
   <entry>
-    <title type="html"><![CDATA[The best bedtime story - What is Unicode?]]></title>
+    <title type="html"><![CDATA[The most significant bit]]></title>
+    <link href="http://blog4fun.github.io/blog/2014/01/12/how-to-efficiently-find-the-most-significant-bit/"/>
+    <updated>2014-01-12T16:14:00+09:00</updated>
+    <id>http://blog4fun.github.io/blog/2014/01/12/how-to-efficiently-find-the-most-significant-bit</id>
+    <content type="html"><![CDATA[<p>Bit manipulation problems are always interesting with surprisingly short yet hard-to-understand solutions.  <br />
+Today, we consider this problem: <code>Given an integer n, find the position (0-based) of its most significant bit efficiently in terms of time/space complexity.</code>         <br />
+In other word, we want to find the biggest integer <code>k</code> such that $2^k \leq n$.     </p>
+
+<h2 id="first-solution-gcc-built-ins">1. First solution: GCC built-ins</h2>
+<p>One acceptable solution given that we use <code>gcc</code> is to use its <strong>built-in</strong> function, <code>__builtin_clz</code> (or <code>__builtin_clzll</code> for long long n). Note that, if $n = 0$, then for $\forall k \in \mathbb{Z}$, $2^k &gt; n$, thus in this case the answer is $-\infty$. Simple C++ code is given below.    </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span> (msb_builtin.cpp)</span> <a href="http://blog4fun.github.io/downloads/code/msb_builtin.cpp">download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="cp">#include&lt;iostream&gt;</span>
+</span><span class="line"><span class="cp">#include&lt;limits&gt;</span>
+</span><span class="line"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class="line"><span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">ull</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// n = 0, then for any i \in Z, 2^i &gt;= n. In this case, answer is -INF</span>
+</span><span class="line"><span class="kt">int</span> <span class="n">msb_v1</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">n</span> <span class="o">?</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="mi">8</span> <span class="o">-</span> <span class="n">__builtin_clz</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">();</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">int</span> <span class="n">msb_ull</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">n</span><span class="p">){</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">n</span> <span class="o">?</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="mi">8</span> <span class="o">-</span> <span class="n">__builtin_clzll</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="n">ull</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">();</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>Find out more about gcc <a href="http://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html">builtins</a>    </p>
+
+<h3 id="cool-solution-ieee-754-double-precision-binary-floating-point-format-binary64">2. Cool solution: IEEE 754 double-precision binary floating-point format <strong>binary64</strong></h3>
+<p>The IEEE 754 standard specifies a <strong>binary64</strong> format of a 64-bit double number as: <br />
++ Sign bit: 1 bit  <br />
++ Exponent part: 11 bits  <br />
++ Fraction part: 52 bits  <br />
+Check out, e.g., <a href="http://en.wikipedia.org/wiki/Double-precision_floating-point_format">Wikipedia</a> for more details.  <br />
+Now, our problem is reduced to extract the <strong>exponent part</strong> of a given number n in <strong>double</strong> format. One way is to first convert n to double and then extract the 11-bit exponent part from its binary representation. The C++ code is given below.    </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span> (msb_exponent.cpp)</span> <a href="http://blog4fun.github.io/downloads/code/msb_exponent.cpp">download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="cp">#include&lt;iostream&gt;</span>
+</span><span class="line"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">int</span> <span class="n">msb</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">x</span><span class="p">){</span>
+</span><span class="line">    <span class="k">union</span> <span class="p">{</span>
+</span><span class="line">        <span class="kt">double</span> <span class="n">v</span><span class="p">;</span>
+</span><span class="line">        <span class="kt">int</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</span><span class="line">    <span class="p">};</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">v</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// store x as double (8 bytes = 64 bits) in v</span>
+</span><span class="line">    <span class="k">return</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1023</span><span class="p">;</span> <span class="c1">// obtain the exponent part</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="other-solutions">3. Other solutions</h3>
+<p>In Java, <code>Integer.highestOneBit(int n)</code> method does the trick. For more details on bitwise operations in Java, see e.g., <a href="http://docs.oracle.com/javase/tutorial/java/nutsandbolts/op3.html">this</a>.  <br />
+We can also precalculate values and achieve <code>O(1)</code> time complexity solution at the expense of additional memory. I will update this post whenever I find any new and good solution.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[What is Unicode?]]></title>
     <link href="http://blog4fun.github.io/blog/2013/12/21/the-best-bedtime-story-what-is-unicode/"/>
     <updated>2013-12-21T18:10:00+09:00</updated>
     <id>http://blog4fun.github.io/blog/2013/12/21/the-best-bedtime-story-what-is-unicode</id>
@@ -133,10 +216,10 @@ As a newbie, I&#8217;ll jot down a basic setting of Octopress-based blogs in thi
 <span class="line-number">4</span>
 <span class="line-number">5</span>
 </pre></td><td class="code"><pre><code class="python"><span class="line"><span class="k">def</span> <span class="nf">insert_code</span><span class="p">():</span>
-</span><span class="line">	<span class="k">print</span> <span class="s">&quot;Sorry, it does not work!&quot;</span>
+</span><span class="line">  <span class="k">print</span> <span class="s">&quot;Sorry, it does not work!&quot;</span>
 </span><span class="line">	
 </span><span class="line"><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span class="line">	<span class="n">insert_code</span><span class="p">()</span>
+</span><span class="line">  <span class="n">insert_code</span><span class="p">()</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 <p>Check out <a href="http://octopress.org/docs/plugins/codeblock/">this guide</a>.  </p>
 

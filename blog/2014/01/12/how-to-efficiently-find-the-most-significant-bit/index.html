@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The most significant bit - A little ninja blog</title>
+  <meta name="author" content="Duong Nguyen">
+
+  
+  <meta name="description" content="Bit manipulation problems are always interesting with surprisingly short yet hard-to-understand solutions. Today, we consider this problem: Given an &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog4fun.github.io/blog/2014/01/12/how-to-efficiently-find-the-most-significant-bit">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="A little ninja blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [ ['$', '$'], ["\\(", "\\)"] ],
+        displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+      //,
+      //displayAlign: "left",
+      //displayIndent: "2em"
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">A little ninja blog</a></h1>
+  
+    <h2>Random thoughts</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog4fun.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Most Significant Bit</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-12T16:14:00+09:00" pubdate data-updated="true">Jan 12<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Bit manipulation problems are always interesting with surprisingly short yet hard-to-understand solutions.  <br />
+Today, we consider this problem: <code>Given an integer n, find the position (0-based) of its most significant bit efficiently in terms of time/space complexity.</code>         <br />
+In other word, we want to find the biggest integer <code>k</code> such that $2^k \leq n$.     </p>
+
+<h2 id="first-solution-gcc-built-ins">1. First solution: GCC built-ins</h2>
+<p>One acceptable solution given that we use <code>gcc</code> is to use its <strong>built-in</strong> function, <code>__builtin_clz</code> (or <code>__builtin_clzll</code> for long long n). Note that, if $n = 0$, then for $\forall k \in \mathbb{Z}$, $2^k &gt; n$, thus in this case the answer is $-\infty$. Simple C++ code is given below.    </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span> (msb_builtin.cpp)</span> <a href="/downloads/code/msb_builtin.cpp">download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="cp">#include&lt;iostream&gt;</span>
+</span><span class="line"><span class="cp">#include&lt;limits&gt;</span>
+</span><span class="line"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class="line"><span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">ull</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="c1">// n = 0, then for any i \in Z, 2^i &gt;= n. In this case, answer is -INF</span>
+</span><span class="line"><span class="kt">int</span> <span class="n">msb_v1</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">n</span> <span class="o">?</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="mi">8</span> <span class="o">-</span> <span class="n">__builtin_clz</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">();</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">int</span> <span class="n">msb_ull</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span> <span class="n">n</span><span class="p">){</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">n</span> <span class="o">?</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">n</span><span class="p">)</span><span class="o">*</span><span class="mi">8</span> <span class="o">-</span> <span class="n">__builtin_clzll</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">numeric_limits</span><span class="o">&lt;</span><span class="n">ull</span><span class="o">&gt;::</span><span class="n">min</span><span class="p">();</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>Find out more about gcc <a href="http://gcc.gnu.org/onlinedocs/gcc/Other-Builtins.html">builtins</a>    </p>
+
+<h3 id="cool-solution-ieee-754-double-precision-binary-floating-point-format-binary64">2. Cool solution: IEEE 754 double-precision binary floating-point format <strong>binary64</strong></h3>
+<p>The IEEE 754 standard specifies a <strong>binary64</strong> format of a 64-bit double number as: <br />
++ Sign bit: 1 bit  <br />
++ Exponent part: 11 bits  <br />
++ Fraction part: 52 bits  <br />
+Check out, e.g., <a href="http://en.wikipedia.org/wiki/Double-precision_floating-point_format">Wikipedia</a> for more details.  <br />
+Now, our problem is reduced to extract the <strong>exponent part</strong> of a given number n in <strong>double</strong> format. One way is to first convert n to double and then extract the 11-bit exponent part from its binary representation. The C++ code is given below.    </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span> (msb_exponent.cpp)</span> <a href="/downloads/code/msb_exponent.cpp">download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="cp">#include&lt;iostream&gt;</span>
+</span><span class="line"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">int</span> <span class="n">msb</span><span class="p">(</span><span class="kt">unsigned</span> <span class="n">x</span><span class="p">){</span>
+</span><span class="line">    <span class="k">union</span> <span class="p">{</span>
+</span><span class="line">        <span class="kt">double</span> <span class="n">v</span><span class="p">;</span>
+</span><span class="line">        <span class="kt">int</span> <span class="n">b</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</span><span class="line">    <span class="p">};</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">v</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// store x as double (8 bytes = 64 bits) in v</span>
+</span><span class="line">    <span class="k">return</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1023</span><span class="p">;</span> <span class="c1">// obtain the exponent part</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<h3 id="other-solutions">3. Other solutions</h3>
+<p>In Java, <code>Integer.highestOneBit(int n)</code> method does the trick. For more details on bitwise operations in Java, see e.g., <a href="http://docs.oracle.com/javase/tutorial/java/nutsandbolts/op3.html">this</a>.  <br />
+We can also precalculate values and achieve <code>O(1)</code> time complexity solution at the expense of additional memory. I will update this post whenever I find any new and good solution.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Duong Nguyen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-12T16:14:00+09:00" pubdate data-updated="true">Jan 12<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog4fun.github.io/blog/2014/01/12/how-to-efficiently-find-the-most-significant-bit/" data-via="" data-counturl="http://blog4fun.github.io/blog/2014/01/12/how-to-efficiently-find-the-most-significant-bit/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/21/the-best-bedtime-story-what-is-unicode/" title="Previous Post: What is Unicode?">&laquo; What is Unicode?</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/01/12/how-to-efficiently-find-the-most-significant-bit/">The Most Significant Bit</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/21/the-best-bedtime-story-what-is-unicode/">What Is Unicode?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/20/regression-and-learning-models/">Regression and Learning Models</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level/">On Sparse Matrix Storage Schemes (Novice-level)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/01/hello-world/">Hello World</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ntduong">@ntduong</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ntduong',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Duong Nguyen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
