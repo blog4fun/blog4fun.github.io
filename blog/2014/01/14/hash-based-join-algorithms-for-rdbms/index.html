@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>On sparse matrix storage schemes (Novice-level) - A little ninja blog</title>
+  <title>Simple hash join algorithm - A little ninja blog</title>
   <meta name="author" content="Duong Nguyen">
 
   
-  <meta name="description" content="In this post, I will discuss some simple storage schemas for sparse matrices. Disclaimer: This informal note is mainly based on my understanding so &hellip;">
+  <meta name="description" content="Recently, I&#8217;ve taken a graduated course in Data Engineering focusing on RDBMS system, parallel data processing, etc. For some reason, I could &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog4fun.github.io/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level">
+  <link rel="canonical" href="http://blog4fun.github.io/blog/2014/01/14/hash-based-join-algorithms-for-rdbms">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="A little ninja blog" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">On Sparse Matrix Storage Schemes (Novice-level)</h1>
+      <h1 class="entry-title">Simple Hash Join Algorithm</h1>
     
     
       <p class="meta">
@@ -98,32 +98,38 @@
   
 
 
-<time datetime="2013-11-29T17:00:00+09:00" pubdate data-updated="true">Nov 29<span>th</span>, 2013</time>
+<time datetime="2014-01-14T15:44:00+09:00" pubdate data-updated="true">Jan 14<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>In this post, I will discuss some simple storage schemas for sparse matrices. <br />
-<strong>Disclaimer</strong>: This <em>informal</em> note is mainly based on my understanding so far, and for my learning purposes. For more accurate and detailed discussion, please refer to your reliable sources.</p>
+<div class="entry-content"><p>Recently, I&#8217;ve taken a graduated course in Data Engineering focusing on RDBMS system, parallel data processing, etc. For some reason, I could not understand some concepts introduced in class. So, I&#8217;ve decided to take some time figuring things out by myself. In this post, I&#8217;ll discuss something about hash-based join algorithms used in RDBMS.   <br />
+Let <code>h(.)</code> denote a hash function that produces an integer number (a.k.a, hash value) from some specific range corresponding to a given input object. <code>h(.)</code> is expected to satisfy some conditions as below:          </p>
 
-<p>A sparse matrix is a matrix, which is almost all <em>zeros</em>. 
-In general, a <em>zero</em> can be thought as a meaningless value that we don&#8217;t need to store.
-In other words, storing only nonzero items for a sparse matrix is enough. As a result, we can save a lot of memory space, or time to transfer compressed data over networks, etc. But, keep in mind that there might be a <strong>trade-off</strong> between memory efficiency and fast/easy access to nonzero items. We will discuss more about this problem in later posts (I hope so!).</p>
+<p>$h(x) \neq h(y) \Rightarrow x \neq y ~\textrm{(1): required}$       <br />
+$x = y \Rightarrow h(x) = h(y) ~\textrm{(2): required}$       <br />
+$x \neq y$, then <script type="math/tex">% <![CDATA[
+\left\{\begin{matrix}h(x) \neq h(y) & \textrm{(3): ideal}\\ h(x) = h(y)& \textrm{(4): collision}\end{matrix}\right. %]]></script>  <br />
+A <strong>join</strong> of multiple relations in RDBMS is an operation that combines tuples satisfy some predicate on given attribute(s) from all relations. For simplicity, we only consider inner-join of two relations R, S here. Moreover, hash-based join algorithms are often employed for <code>equi-join</code>, with equal predicate, so unless stated otherwise, I&#8217;ll use <code>join</code> to refer to <code>inner equi-join</code> in this post. That&#8217;s too much for introduction, let&#8217;s dive in main points.   </p>
 
-<p>Let M denote a sparse matrix of size <code>R x C</code>. Assume that M contains <code>n</code> nonzero items, where <code>n</code> is significantly smaller than <code>R x C</code>. Below are three simple yet useful storage schemes:<br />
-<strong>1. Coordinate Format (COO)</strong>    <br />
-A list of triplets <code>(r,c,val)</code>, where <code>val = M[r][c]</code>.   </p>
+<h3 id="simple-hash-join">1. Simple hash join</h3>
+<p>Let&#8217;s assume that <code>#|R| &lt; #|S|</code>, and we&#8217;re going to join R and S on attribute <code>a</code>. A simple hash join is simply a two-phase algorithm that:</p>
 
-<p><strong>2. Compressed Sparse Row Format (CSR)</strong> <br />
-Basically, all information is stored in 3 arrays:   <br />
-  * <code>vals</code>: array of nonzero items in left-to-right, then top-to-bottom order. Hence, vals is a length <code>n</code> array. <br />
-  * <code>col_ind</code>: array of column indices (0-based) of nonzero items. Hence, col_ind is a length <code>n</code> array. <br />
-  * <code>rs_ind</code>: (index of first nonzero item of each row in vals array). Hence, rs_ind is a length <code>(R+1)</code> array. All nonzero items of M&#8217;s i-th row lies in range <code>[rs_ind[i], rs_ind[i+1]-1]</code> of vals array. That is, if we denote <code>le = rs_ind[i], ri = rs_ind[i+1]-1</code>, then <code>vals[le..ri]</code> are all nonzero items in i-th row of M.  </p>
+<ul>
+  <li>
+    <p><strong>Build phase</strong>: Use a hash function <code>h(.)</code> to build a hash table for R. For example, for a tuple r in R, r will be hashed to a bucket specified by <code>h(r.a)</code>. The main point here is that we use join attribute <code>a</code> to hash all tuples in R. For now, assume that the generated hash table fits into main memory.   </p>
+  </li>
+  <li>
+    <p><strong>Probe phase</strong>: Scan all tuples of S and apply the same hash function <code>h(.)</code> to test if a given tuple s in S might be joined with some tuples in R. Due to property (1) of <code>h(.)</code>, if $h(r.a) \neq h(s.a)$ then we immediately know that s should not be joined with r without comparing r.a and s.a directly. However, keep in mind that for the case $h(r.a) = h(s.a)$, we still need to check whether r.a = s.a to decide if r and s should be joined together. In probe phase, we might also write out the results to disk.    <br />
+The reason why hash-based algorithms might be quite efficient is that we only need to directly compare pairs (r,s) if they are hashed to the same bucket instead of doing this time-consuming task for all pairs (r,s). However, the performance of a hash-based algorithm depends on the choices of the hash function. In ideal cases, we expect that a good hash function will evenly distribute all tuples from R into let&#8217;s say n buckets, and reduce the number of collisions. Then, the expected number of tuples in each bucket is <code>#|R|/n</code>. This is also called <code>load factor</code> of the hash table. We choose hash function and n such that the load factor is a small constant. In average case, hash-based algorithm can be quite fast.     </p>
+  </li>
+</ul>
 
-<p><strong>3. Compressed Sparse Column Format (CSC)</strong>  <br />
-This format can be thought as CSR with the roles of row and column exchanged. Then, I will skip the explanation here.</p>
+<p><strong>What if</strong> the hash table generated in build phase can not be fit in main memory? One simple solution is iteratively run the two-phase algorithm above for <code>|R|/|M|</code> times, where <code>|M|</code> is the size of main memory. Each time, we try to fit as many tuples from R as possible into main memory. This modified algorithm is similar to block nested loop algorithm. Its main drawback is that we have to scan S for many times in probe phases. Also, it&#8217; not easy to parallelize this simple hash join algorithm. So, smart people came up with new algorithm, called <strong>GRACE hash join</strong>! </p>
+
+<h3 id="grace-hash-join-next-post">2. GRACE hash join (next post)</h3>
 </div>
 
 
@@ -146,21 +152,15 @@ This format can be thought as CSR with the roles of row and column exchanged. Th
   
 
 
-<time datetime="2013-11-29T17:00:00+09:00" pubdate data-updated="true">Nov 29<span>th</span>, 2013</time>
+<time datetime="2014-01-14T15:44:00+09:00" pubdate data-updated="true">Jan 14<span>th</span>, 2014</time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/basic/'>basic</a>, <a class='category' href='/blog/categories/knowledge/'>knowledge</a>
-  
-</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog4fun.github.io/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level/" data-via="" data-counturl="http://blog4fun.github.io/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog4fun.github.io/blog/2014/01/14/hash-based-join-algorithms-for-rdbms/" data-via="" data-counturl="http://blog4fun.github.io/blog/2014/01/14/hash-based-join-algorithms-for-rdbms/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -173,10 +173,8 @@ This format can be thought as CSR with the roles of row and column exchanged. Th
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/11/01/hello-world/" title="Previous Post: Hello World">&laquo; Hello World</a>
+        <a class="basic-alignment left" href="/blog/2014/01/12/how-to-efficiently-find-the-most-significant-bit/" title="Previous Post: The most significant bit">&laquo; The most significant bit</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/12/20/regression-and-learning-models/" title="Next Post: Regression and learning models">Regression and learning models &raquo;</a>
       
     </p>
   </footer>

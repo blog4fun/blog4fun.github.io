@@ -109,7 +109,7 @@
 Today, we consider this problem: <code>Given an integer n, find the position (0-based) of its most significant bit efficiently in terms of time/space complexity.</code>         <br />
 In other word, we want to find the biggest integer <code>k</code> such that $2^k \leq n$.     </p>
 
-<h2 id="first-solution-gcc-built-ins">1. First solution: GCC built-ins</h2>
+<h3 id="first-solution-gcc-built-ins">1. First solution: GCC built-ins</h3>
 <p>One acceptable solution given that we use <code>gcc</code> is to use its <strong>built-in</strong> function, <code>__builtin_clz</code> (or <code>__builtin_clzll</code> for long long n). Note that, if $n = 0$, then for $\forall k \in \mathbb{Z}$, $2^k &gt; n$, thus in this case the answer is $-\infty$. Simple C++ code is given below.    </p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span> (msb_builtin.cpp)</span> <a href="/downloads/code/msb_builtin.cpp">download</a></figcaption>
@@ -226,6 +226,8 @@ We can also precalculate values and achieve <code>O(1)</code> time complexity so
         <a class="basic-alignment left" href="/blog/2013/12/21/the-best-bedtime-story-what-is-unicode/" title="Previous Post: What is Unicode?">&laquo; What is Unicode?</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/01/14/hash-based-join-algorithms-for-rdbms/" title="Next Post: Simple hash join algorithm">Simple hash join algorithm &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -237,6 +239,10 @@ We can also precalculate values and achieve <code>O(1)</code> time complexity so
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/01/14/hash-based-join-algorithms-for-rdbms/">Simple Hash Join Algorithm</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/01/12/how-to-efficiently-find-the-most-significant-bit/">The Most Significant Bit</a>
@@ -252,10 +258,6 @@ We can also precalculate values and achieve <code>O(1)</code> time complexity so
     
       <li class="post">
         <a href="/blog/2013/11/29/memo-on-sparse-matrix-storage-schemes-novice-level/">On Sparse Matrix Storage Schemes (Novice-level)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/11/01/hello-world/">Hello World</a>
       </li>
     
   </ul>

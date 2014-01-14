@@ -4,7 +4,7 @@
   <title><![CDATA[A little ninja blog]]></title>
   <link href="http://blog4fun.github.io/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2014-01-12T17:14:27+09:00</updated>
+  <updated>2014-01-14T21:14:16+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -12,6 +12,39 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Simple hash join algorithm]]></title>
+    <link href="http://blog4fun.github.io/blog/2014/01/14/hash-based-join-algorithms-for-rdbms/"/>
+    <updated>2014-01-14T15:44:00+09:00</updated>
+    <id>http://blog4fun.github.io/blog/2014/01/14/hash-based-join-algorithms-for-rdbms</id>
+    <content type="html"><![CDATA[<p>Recently, I&#8217;ve taken a graduated course in Data Engineering focusing on RDBMS system, parallel data processing, etc. For some reason, I could not understand some concepts introduced in class. So, I&#8217;ve decided to take some time figuring things out by myself. In this post, I&#8217;ll discuss something about hash-based join algorithms used in RDBMS.   <br />
+Let <code>h(.)</code> denote a hash function that produces an integer number (a.k.a, hash value) from some specific range corresponding to a given input object. <code>h(.)</code> is expected to satisfy some conditions as below:          </p>
+
+<p>$h(x) \neq h(y) \Rightarrow x \neq y ~\textrm{(1): required}$       <br />
+$x = y \Rightarrow h(x) = h(y) ~\textrm{(2): required}$       <br />
+$x \neq y$, then <script type="math/tex">% &lt;![CDATA[
+\left\{\begin{matrix}h(x) \neq h(y) & \textrm{(3): ideal}\\ h(x) = h(y)& \textrm{(4): collision}\end{matrix}\right. %]]&gt;</script>  <br />
+A <strong>join</strong> of multiple relations in RDBMS is an operation that combines tuples satisfy some predicate on given attribute(s) from all relations. For simplicity, we only consider inner-join of two relations R, S here. Moreover, hash-based join algorithms are often employed for <code>equi-join</code>, with equal predicate, so unless stated otherwise, I&#8217;ll use <code>join</code> to refer to <code>inner equi-join</code> in this post. That&#8217;s too much for introduction, let&#8217;s dive in main points.   </p>
+
+<h3 id="simple-hash-join">1. Simple hash join</h3>
+<p>Let&#8217;s assume that <code>#|R| &lt; #|S|</code>, and we&#8217;re going to join R and S on attribute <code>a</code>. A simple hash join is simply a two-phase algorithm that:</p>
+
+<ul>
+  <li>
+    <p><strong>Build phase</strong>: Use a hash function <code>h(.)</code> to build a hash table for R. For example, for a tuple r in R, r will be hashed to a bucket specified by <code>h(r.a)</code>. The main point here is that we use join attribute <code>a</code> to hash all tuples in R. For now, assume that the generated hash table fits into main memory.   </p>
+  </li>
+  <li>
+    <p><strong>Probe phase</strong>: Scan all tuples of S and apply the same hash function <code>h(.)</code> to test if a given tuple s in S might be joined with some tuples in R. Due to property (1) of <code>h(.)</code>, if $h(r.a) \neq h(s.a)$ then we immediately know that s should not be joined with r without comparing r.a and s.a directly. However, keep in mind that for the case $h(r.a) = h(s.a)$, we still need to check whether r.a = s.a to decide if r and s should be joined together. In probe phase, we might also write out the results to disk.    <br />
+The reason why hash-based algorithms might be quite efficient is that we only need to directly compare pairs (r,s) if they are hashed to the same bucket instead of doing this time-consuming task for all pairs (r,s). However, the performance of a hash-based algorithm depends on the choices of the hash function. In ideal cases, we expect that a good hash function will evenly distribute all tuples from R into let&#8217;s say n buckets, and reduce the number of collisions. Then, the expected number of tuples in each bucket is <code>#|R|/n</code>. This is also called <code>load factor</code> of the hash table. We choose hash function and n such that the load factor is a small constant. In average case, hash-based algorithm can be quite fast.     </p>
+  </li>
+</ul>
+
+<p><strong>What if</strong> the hash table generated in build phase can not be fit in main memory? One simple solution is iteratively run the two-phase algorithm above for <code>|R|/|M|</code> times, where <code>|M|</code> is the size of main memory. Each time, we try to fit as many tuples from R as possible into main memory. This modified algorithm is similar to block nested loop algorithm. Its main drawback is that we have to scan S for many times in probe phases. Also, it&#8217; not easy to parallelize this simple hash join algorithm. So, smart people came up with new algorithm, called <strong>GRACE hash join</strong>! </p>
+
+<h3 id="grace-hash-join-next-post">2. GRACE hash join (next post)</h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The most significant bit]]></title>
@@ -22,7 +55,7 @@
 Today, we consider this problem: <code>Given an integer n, find the position (0-based) of its most significant bit efficiently in terms of time/space complexity.</code>         <br />
 In other word, we want to find the biggest integer <code>k</code> such that $2^k \leq n$.     </p>
 
-<h2 id="first-solution-gcc-built-ins">1. First solution: GCC built-ins</h2>
+<h3 id="first-solution-gcc-built-ins">1. First solution: GCC built-ins</h3>
 <p>One acceptable solution given that we use <code>gcc</code> is to use its <strong>built-in</strong> function, <code>__builtin_clz</code> (or <code>__builtin_clzll</code> for long long n). Note that, if $n = 0$, then for $\forall k \in \mathbb{Z}$, $2^k &gt; n$, thus in this case the answer is $-\infty$. Simple C++ code is given below.    </p>
 
 <div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span> (msb_builtin.cpp)</span> <a href="http://blog4fun.github.io/downloads/code/msb_builtin.cpp">download</a></figcaption>
