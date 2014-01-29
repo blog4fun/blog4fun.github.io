@@ -85,7 +85,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/01/14/hash-based-join-algorithms-for-rdbms/">Simple Hash Join Algorithm</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/01/14/hash-based-join-algorithms-for-rdbms/">Hash-based Join Algorithms</a></h1>
     
     
       <p class="meta">
@@ -117,7 +117,7 @@ $x \neq y$, then <script type="math/tex">% <![CDATA[
 \left\{\begin{matrix}h(x) \neq h(y) & \textrm{(3): ideal}\\ h(x) = h(y)& \textrm{(4): collision}\end{matrix}\right. %]]></script>  <br />
 A <strong>join</strong> of multiple relations in RDBMS is an operation that combines tuples satisfy some predicate on given attribute(s) from all relations. For simplicity, we only consider inner-join of two relations R, S here. Moreover, hash-based join algorithms are often employed for <code>equi-join</code>, with equal predicate, so unless stated otherwise, I&#8217;ll use <code>join</code> to refer to <code>inner equi-join</code> in this post. That&#8217;s too much for introduction, let&#8217;s dive in main points.   </p>
 
-<h3 id="simple-hash-join">1. Simple hash join</h3>
+<h3 id="simple-hash-join">1. Simple Hash Join</h3>
 <p>Let&#8217;s assume that <code>#|R| &lt; #|S|</code>, and we&#8217;re going to join R and S on attribute <code>a</code>. A simple hash join is simply a two-phase algorithm that:</p>
 
 <ul>
@@ -130,9 +130,22 @@ The reason why hash-based algorithms might be quite efficient is that we only ne
   </li>
 </ul>
 
-<p><strong>What if</strong> the hash table generated in build phase can not be fit in main memory? One simple solution is iteratively run the two-phase algorithm above for <code>|R|/|M|</code> times, where <code>|M|</code> is the size of main memory. Each time, we try to fit as many tuples from R as possible into main memory. This modified algorithm is similar to block nested loop algorithm. Its main drawback is that we have to scan S for many times in probe phases. Also, it&#8217; not easy to parallelize this simple hash join algorithm. So, smart people came up with new algorithm, called <strong>GRACE hash join</strong>! </p>
+<p><strong>What if</strong> the hash table generated in build phase can not be fit in main memory? This situation is also known as <em>overflow</em>. One simple solution is iteratively run the two-phase algorithm above for <code>|R|/|M|</code> times, where <code>|M|</code> is the size of main memory. Each time, we try to fit as many tuples from R as possible into main memory. This modified algorithm is similar to block nested loop algorithm. Its main drawback is that we have to scan S for many times in probe phases. Also, it&#8217; not easy to parallelize this simple hash join algorithm. So, smart people came up with new algorithm, called <strong>GRACE hash join</strong>! </p>
 
-<h3 id="grace-hash-join-next-post">2. GRACE hash join (next post)</h3>
+<h3 id="grace-hash-join">2. GRACE Hash Join</h3>
+<p>As mentioned above, one problem with <strong>simple hash join</strong> is the overhead of scanning S for many times in case of overflow. To overcome this problem, in GRACE hash join, we use a hash function <code>h1(.)</code> to first split R, S into n  buckets each, let&#8217;s say <script type="math/tex">R_1,...,R_n</script>, and <script type="math/tex">S_1,...,S_n</script>, respectively. This phase is called partitioning phase. The point is by dividing original relations into multiple parts, we can fit each small part into main memory. Even if it&#8217;s not the case, the overhead of scanning can still be reduced significantly. Furthermore, since the same hash function is used to partition, in the next phase (a.k.a, join phase), we only need to do join for n pairs <script type="math/tex">(R_1, S_1),...,(R_n, S_n)</script>. Due to the small sizes of <script type="math/tex">R_i, S_i</script>, compared with the original ones, the overall join cost can be reduced significantly.    </p>
+
+<p>What&#8217;s more? You might notice that unlike simple hash join, GRACE hash join can be parallelized without much effort. Assume that we have <code>n</code> machines (processing elements), and the original relations are already partitioned into <code>n</code> disks in advance. Then, each disk has <code>{R}/n</code> and<code>{S}/n</code> tuples on average. Also, the selection operations on join field can be executed in parallel. In the partitioning phase, each bucket can be assigned to a machine in parallel. In other words, we can parallelize bucket decomposition in the partitioning phase. In join phase, since each machine is assigned a pair of buckets $(R_i, S_i)$, the join operation can be executed in each machine in parallel without communication with other machines. That means the join phase can be parallelized efficiently. </p>
+
+<p>Let&#8217;s consider the execution cost of parallel GRACE hash join, particularly I/O cost and machine-to-machine communication cost, which are two dominating factors. It&#8217;s easy to see that in the first phase, each machine needs <code>(|R|+|S|)/n</code> reads and <code>(|R|+|S|)/n</code> writes. Also, each machine has to communicate with all of the other machines with total cost <script type="math/tex">C_{comm}</script>. In the join phase, no machine-to-machine communication is needed, and <code>(|R|+|S|)/n</code> reads for each machine. Thus, there are <code>3(|R|+|S|)/n</code> I/O, plus communication cost <script type="math/tex">C_{comm}</script> for each machine.</p>
+
+<p>Note that, in the rough estimation above, we&#8217;ve glossed over some important factors, and only consider a rather ideal situation. What if the tuples are not distributed evenly between disks, or machines? Generally speaking, if there are data skew, the full strength and scalability of parallel system can not be achieved due to limitations of the slowest machine. In that case, the cost of skew handling is significant enough that we need to analyze carefully. Skew handling, however is beyond the scope of this small post, so I will leave it for a future post.   <br />
+Also, when <code>(|R|+|S|)/n</code> tuples can not be fit into the main memory of each machine, then we need some techniques to deal with this situation. One common solution is <a href="http://en.wikipedia.org/wiki/Multiple_buffering">double buffering</a>, a popular technique in computer graphics that allows reading and writing from a stream continuously. Check out books or Googling for more details.    <br />
+To wrap up, GRACE hash join overcomes problems in simple hash join and can be parallelized without much effort.     </p>
+
+<p>In this post, I briefly discussed two hash-based join algorithms: <strong>Simple Hash Join</strong>, and <strong>GRACE Hash Join</strong> from my shallow understanding. There are obviously many hash-based join algorithms out there, e.g., a popular <strong>Hybrid Hash Join</strong>, but a full discussion is beyond the scope of this blog and not my objective. I just want to nail down some basic parts which might help further understand of more sophisticated algorithms.      </p>
+
+<p>Happy hashing! Until next time!</p>
 </div>
   
   
@@ -505,7 +518,7 @@ A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/01/14/hash-based-join-algorithms-for-rdbms/">Simple Hash Join Algorithm</a>
+        <a href="/blog/2014/01/14/hash-based-join-algorithms-for-rdbms/">Hash-based Join Algorithms</a>
       </li>
     
       <li class="post">
