@@ -4,7 +4,7 @@
   <title><![CDATA[Category: hashing | A little ninja blog]]></title>
   <link href="http://blog4fun.github.io/blog/categories/hashing/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2014-01-29T13:52:47+09:00</updated>
+  <updated>2014-01-29T13:55:25+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Hash-based join algorithms]]></title>
-    <link href="http://blog4fun.github.io/blog/2014/01/14/hash-based-join-algorithms-for-rdbms/"/>
-    <updated>2014-01-14T15:44:00+09:00</updated>
-    <id>http://blog4fun.github.io/blog/2014/01/14/hash-based-join-algorithms-for-rdbms</id>
+    <link href="http://blog4fun.github.io/blog/2014/01/29/hash-based-join-algorithms-for-rdbms/"/>
+    <updated>2014-01-29T13:54:00+09:00</updated>
+    <id>http://blog4fun.github.io/blog/2014/01/29/hash-based-join-algorithms-for-rdbms</id>
     <content type="html"><![CDATA[<p>Recently, I've taken a graduated course in Data Engineering focusing on RDBMS system, parallel data processing, etc. For some reason, I could not understand some concepts introduced in class. So, I've decided to take some time figuring things out by myself. In this post, I'll discuss something about hash-based join algorithms used in RDBMS.   <br />
 Let <code>h(.)</code> denote a hash function that produces an integer number (a.k.a, hash value) from some specific range corresponding to a given input object. <code>h(.)</code> is expected to satisfy some conditions as below:          </p>
 
