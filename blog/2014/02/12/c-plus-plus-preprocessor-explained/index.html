@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>C++ Preprocessor Explained - A little ninja blog</title>
+  <meta name="author" content="Duong Nguyen">
+
+  
+  <meta name="description" content="Many C++ beginners (e.g. me) enjoy pushing buttons to have their programs compiled and run smoothly (if no errors). We just take for granted some &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog4fun.github.io/blog/2014/02/12/c-plus-plus-preprocessor-explained">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="A little ninja blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      jax: ["input/TeX", "output/HTML-CSS"],
+      tex2jax: {
+        inlineMath: [ ['$', '$'], ["\\(", "\\)"] ],
+        displayMath: [ ['$$', '$$'], ["\\[", "\\]"] ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+      //,
+      //displayAlign: "left",
+      //displayIndent: "2em"
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">A little ninja blog</a></h1>
+  
+    <h2>Random thoughts</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog4fun.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">C++ Preprocessor Explained</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-12T15:13:00+09:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Many C++ beginners (e.g. me) enjoy pushing buttons to have their programs compiled and run smoothly (if no errors). We just take for granted some magic things happen behind the scene in our favorite IDE. Have you ever wonder how your text-based C++ source code was transformed into the final executable. In this post, we will look into the C++ compilation model, particularly the preprocessor. These things might help us gain more insight into our programs, our bugs, and understand source code written by other better.    </p>
+
+<h2 id="c-compilation-model">1. C++ compilation model</h2>
+<p>As you know, C++ is a compiled language, that means before a C++ program executes, we have a special program, called <code>compiler</code> to convert the C++ source code into machine code. Once the program is compiled, a computer can run the resulting executable for any number of times, even if the original source code is not available. The fairly complex compilation process can be broken down into 3 main steps:    </p>
+
+<ul>
+  <li>
+    <p>Preprocessing: During this step, a special program, called the preprocessor scans over the C++ source code and applies transformations to it. For instance, <code>#include</code> directives are resolved to make various libraries available, special tokens, e.g. <code>__LINE__</code>, <code>#define</code>-d constants and macros are replaced by their appropriate values.   </p>
+  </li>
+  <li>
+    <p>Compilation: The compiler read in the C++ source files, optimize, transform them into <code>object files</code>. These object files are machine and compiler dependent, but usually contain machine code which executes the instructions written in C++ files, along with extra information. The <code>compile error</code> (CE) if any will be reported at this stage. Note that during the compilation step, each C++ source file is treated independently.    </p>
+  </li>
+  <li>
+    <p>Linking: A program, called <code>linker</code> gather all the object files generated in compilation phase, and build the final executable that can be run and distributed. During this step, the linker might report some final errors.    </p>
+  </li>
+</ul>
+
+<p>Understanding the compilation model might help us quickly nail down sources of errors, demystify some otherwise cryptic error messages, and debug efficiently. The whole compilation process is illustrated in the figure below.
+<img src="/images/compilation.png" /></p>
+
+<h2 id="preprocessor-in-detail">2. Preprocessor in detail</h2>
+<p>As mentioned above, the first big step in the compilation process is preprocessing, where a special program, called <code>preprocessor</code> reads in <code>directives</code> and modifies source code before giving it to the compiler for further transformation. While the preprocesor is powerful, it is difficult to use correctly and can lead to subtle and complex bugs. It has been controversial among programmers that whether preprocessor techniques should be used instead of alternative solutions which often clearer and safer. IMHO, everything has pros and cons, thus getting to know the  tools, in this case preprocessor techniques before making any decision is more important than taking side without much understanding. Personally, I&#8217;ve found some preprocessor techniques quite useful.</p>
+
+<h4 id="include-directive">2.1. <code>#include</code> directive</h4>
+
+<ul>
+  <li>
+    <p>Basically, it tells the preprocessor to import library code into the program. More concretely, <code>#include</code> directive asks the preprocessor to locate a specified file and insert its contents in place of the directive itself. For instance, if you write <code>#include &lt;iostream&gt;</code>, during the preprocessing step, the preprocessor will look for the content of <code>iostream</code>, then copy and paste it into your source file in place of the directive.    </p>
+  </li>
+  <li>
+    <p>What if you double types the same #include &lt;header&gt;? Does that cause the same code is copied and pasted twice. If so, this will causes compile errors. Thus, comes the &#8220;#include guarding&#8221; technique, which ensures that content of a header file is included only once. You might see something like:          <br />
+<code>#ifndef xxx_INCLUDED</code>  <br />
+<code>#define xxx_INCLUDED</code>  <br />
+<code>// something goes here</code>  <br />
+<code>#endif</code> <br />
+Basically, this ensures xxx header content is included only once.     </p>
+  </li>
+  <li>
+    <p>You might also wonder what is difference between <code>#include &lt;xxx&gt;</code> and <code>#include "xxx"</code>. In the former case, where the filename xxx is surrounded in angle brackets, the preprocessor will look into a compiler-specific directory containing C++ standard library files. In the latter case, when filename is surrounded in quotes, the preprocessor will look into the current directory for the xxx. And last but not least, keep in mind that <code>#include</code> is a preprocessor <code>directive</code>, not a C++ statement, that means it must not end with a semicolon.</p>
+  </li>
+</ul>
+
+<h4 id="define-directive">2.2. <code>#define</code> directive</h4>
+<ul>
+  <li>
+    <p>One of the most commonly used and abused preprocessor directives. Basically it tells the preprocessor to look for specified phrases in the source code and replace them with appropriate values. The basic syntax is <code>#define SOMETHING REPLACEMENT</code>. Let&#8217;s consider some examples.    <br />
+Q1. <code>#define MY 1</code>   <br />
+The line above means everytime the preprocessor see a <code>MY</code> in the source code, just replace it with 1 (as an int, not string).  <br />
+Q2. <code>#define MY</code> vs <code>#undef MY</code>   <br />
+Obviously, you can define a phrase without replacement part. In this case, <code>MY</code> will be defined as <code>nothingness</code>. Note that it is different from <code>#undef MY</code>, by this you undefine <code>MY</code>. In the former case, you do define <code>MY</code> as <code>nothingness</code>, but in the latter case, <code>MY</code> is undefined and any of its usage without redefining will lead to compile errors.     </p>
+  </li>
+  <li>
+    <p>Now, go to one of the most common and complex usage of <code>#define</code>: macro definition. The syntax looks like this:   <br />
+<code>#define macroname(param_1,...,param_n) macro_body</code>.   <br />
+This is basically the same as using #define for constant definition. When the preprocessor encounters a call to a function named <code>macroname</code>, it will replace <code>macroname</code> with the text in <code>macro_body</code>. However, unlike normal C++ functions, preprocessor macros do not have return values. Obviously, you can write a normal function which does exactly the same thing as a macro does. So, what is the point of using a macro? An answer might be using macro for routine code would save you a significant overhead of function calls, then be much more efficient in terms of performance than normal function, particularly in the old day when computer was not fast. What about <code>inline</code> function? Inline function can help improve performance, but <code>inline</code> keyword does not force the function to be inlined. Instead it only suggests the compiler to inline the function if possible.     </p>
+  </li>
+</ul>
+
+<p>While preprocessing techniques are pretty powerful, at the same time they can lead to unexpected and subtle logic which different from programmer&#8217;s original intention. If you don&#8217;t believe, check out the code below and guess what happen behind the scene without using your compiler.     </p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span> (preprocess.cpp)</span> <a href="/downloads/code/preprocess.cpp">download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+</pre></td><td class="code"><pre><code class="cpp"><span class="line"><span class="cp">#include&lt;iostream&gt;</span>
+</span><span class="line">
+</span><span class="line"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line"><span class="cp">#define MY 1;</span>
+</span><span class="line"><span class="cp">#define LEFT 1</span>
+</span><span class="line"><span class="cp">#define RIGHT 2</span>
+</span><span class="line"><span class="c1">//#define MARGIN (LEFT + RIGHT)</span>
+</span><span class="line"><span class="cp">#define MARGIN LEFT + RIGHT </span><span class="c1">// error --&gt; please put on your brackets!</span>
+</span><span class="line">
+</span><span class="line"><span class="cp">#define something</span>
+</span><span class="line"><span class="cp">#define crazy</span>
+</span><span class="line"><span class="cp">#define happened</span>
+</span><span class="line"><span class="cp">#define did</span>
+</span><span class="line"><span class="cp">#define you</span>
+</span><span class="line"><span class="cp">#define know</span>
+</span><span class="line">
+</span><span class="line"><span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+</span><span class="line">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">MY</span><span class="o">+</span><span class="mi">3</span><span class="p">;</span> <span class="c1">// expected 4, but got 1 --&gt; buggy</span>
+</span><span class="line">    <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">MARGIN</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class="line">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// expected 6, but got 5 --&gt; buggy</span>
+</span><span class="line">
+</span><span class="line">    <span class="n">something</span> <span class="n">crazy</span> <span class="n">happened</span> <span class="n">did</span> <span class="n">you</span> <span class="n">know</span>
+</span><span class="line">
+</span><span class="line">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This post has been too long, so some advanced preprocessor techniques, e.g. String manipulation, special preprocessor values, <code>X Macro Trick</code> will be defered to a follow-up post in the near future. Stay tuned!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Duong Nguyen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-12T15:13:00+09:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog4fun.github.io/blog/2014/02/12/c-plus-plus-preprocessor-explained/" data-via="" data-counturl="http://blog4fun.github.io/blog/2014/02/12/c-plus-plus-preprocessor-explained/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/01/29/hash-based-join-algorithms-for-rdbms/" title="Previous Post: Hash-based join algorithms">&laquo; Hash-based join algorithms</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/02/12/c-plus-plus-preprocessor-explained/">C++ Preprocessor Explained</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/29/hash-based-join-algorithms-for-rdbms/">Hash-based Join Algorithms</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/01/12/how-to-efficiently-find-the-most-significant-bit/">The Most Significant Bit</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/21/the-best-bedtime-story-what-is-unicode/">What Is Unicode?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/20/regression-and-learning-models/">Regression and Learning Models</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ntduong">@ntduong</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ntduong',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - Duong Nguyen -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
