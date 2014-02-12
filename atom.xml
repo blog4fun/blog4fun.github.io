@@ -4,7 +4,7 @@
   <title><![CDATA[A little ninja blog]]></title>
   <link href="http://blog4fun.github.io/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2014-02-12T17:40:07+09:00</updated>
+  <updated>2014-02-12T17:41:56+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -127,7 +127,7 @@ This is basically the same as using #define for constant definition. When the pr
 </span><span class="line">    <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">MARGIN</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
 </span><span class="line">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="o">&lt;&lt;</span> <span class="n">x</span><span class="p">;</span> <span class="c1">// expected 6, but got 5 --&gt; buggy</span>
 </span><span class="line">
-</span><span class="line">    <span class="n">something</span> <span class="n">crazy</span> <span class="n">happened</span> <span class="n">did</span> <span class="n">you</span> <span class="n">know</span>
+</span><span class="line">    <span class="n">something</span> <span class="n">funny</span> <span class="n">happened</span> <span class="n">did</span> <span class="n">you</span> <span class="n">know</span>
 </span><span class="line">
 </span><span class="line">    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 </span><span class="line"><span class="p">}</span>

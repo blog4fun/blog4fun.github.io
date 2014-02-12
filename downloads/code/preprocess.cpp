@@ -20,7 +20,7 @@ int main(){
     int x = MARGIN * 2;
     cout << endl << x; // expected 6, but got 5 --> buggy
 
-    something crazy happened did you know
+    something funny happened did you know
 
     return 0;
 }
