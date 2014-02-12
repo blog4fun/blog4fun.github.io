@@ -4,7 +4,7 @@
   <title><![CDATA[A little ninja blog]]></title>
   <link href="http://blog4fun.github.io/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2014-02-12T17:36:32+09:00</updated>
+  <updated>2014-02-12T17:40:07+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -116,7 +116,7 @@ This is basically the same as using #define for constant definition. When the pr
 </span><span class="line"><span class="cp">#define MARGIN LEFT + RIGHT </span><span class="c1">// error --&gt; please put on your brackets!</span>
 </span><span class="line">
 </span><span class="line"><span class="cp">#define something</span>
-</span><span class="line"><span class="cp">#define crazy</span>
+</span><span class="line"><span class="cp">#define funny</span>
 </span><span class="line"><span class="cp">#define happened</span>
 </span><span class="line"><span class="cp">#define did</span>
 </span><span class="line"><span class="cp">#define you</span>
@@ -133,7 +133,7 @@ This is basically the same as using #define for constant definition. When the pr
 </span><span class="line"><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>This post has been too long, so some advanced preprocessor techniques, e.g. String manipulation, special preprocessor values, <code>X Macro Trick</code> will be defered to a follow-up post in the near future. Stay tuned!</p>
+<p>This post has been too long, so some advanced preprocessor techniques, e.g. String manipulation, special preprocessor values, <code>X Macro Trick</code> will be deferred to a follow-up post in the near future. Stay tuned!</p>
 ]]></content>
   </entry>
   

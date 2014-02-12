@@ -9,7 +9,7 @@ using namespace std;
 #define MARGIN LEFT + RIGHT // error --> please put on your brackets!
 
 #define something
-#define crazy
+#define funny
 #define happened
 #define did
 #define you
