@@ -9,7 +9,7 @@
   <meta name="author" content="Duong Nguyen">
 
   
-  <meta name="description" content="Many C++ beginners (e.g. me) enjoy pushing buttons to have their programs compiled and run smoothly (if no errors). We just take for granted some &hellip;">
+  <meta name="description" content="As many people (humbly including me) has been trying some new, exciting (maybe) features of the new standard version of C++, a.k.a C++11 (or, C++0x &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,6 +79,63 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/25/functional-programming-in-c-plus-plus/">Functional Programming in C++</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-25T00:40:00+09:00" pubdate data-updated="true">Feb 25<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>As many people (humbly including me) has been trying some new, exciting (maybe) features of the new standard version of C++, a.k.a <code>C++11</code> (or, <code>C++0x</code>), I personally still find it very rewarding to explore cool things about the oldie C++98 (correct me if I was wrong!). In this post, we will look into some basic techniques/features related to <strong>functional programming</strong> in C++. Unless otherwise stated, C++, in this post, refers to the previous standard version of the language. I&#8217;m unfortunately not a hardcore fan of some functional programming languages, e.g., Haskell, but the ideas of functional programming are very appealing and profound.     </p>
+
+<h3 id="map-and-reduce">0. Map and Reduce</h3>
+<p>People who are familiar with functional programming might look for something corresponding to the classic higher-order functions Map and Reduce in C++. One acceptable answer would be:    </p>
+
+<ul>
+  <li>
+    <p><strong>accumulate(start, stop, accumulator, binary_op)</strong>: a general purpose function in &lt;numeric&gt;, that basically transforms a collection/sequence of elements into a single value. Simply put, it does <strong>Reduce</strong>.    </p>
+  </li>
+  <li>
+    <p><strong>transform(start, stop, result, unary_op)</strong> or <strong>transform(start1, stop1, start2, result, binary_op)</strong>: a function in &lt;algorithm&gt; library, that applies specified operation and transform given sequence(s) to a new sequence. In other words, it does <strong>Map</strong>.</p>
+  </li>
+</ul>
+
+<h3 id="function-object---functor">1. Function object - Functor</h3>
+<p>To be updated.    </p>
+
+<h3 id="adaptable-functions-and-functional-library">2. Adaptable Functions and &lt;functional&gt; library</h3>
+<p>To be updated.    </p>
+
+<h3 id="where-to-go-from-here">3. Where to go from here?</h3>
+<p>As you can see, C++ does provide support for function programming through e.g., useful yet quite limited &lt;functional&gt; library. <code>C++11</code>, however, seems to empower us with more features which can make functional programming a lot easier and funnier. Check out <a href="http://www.stroustrup.com/C++11FAQ.html">Bjarne Stroustrup&#8217;s page</a>, or <a href="http://www.codeproject.com/Articles/570638/Ten-Cplusplus11-Features-Every-Cplusplus-Developer">this article</a> for more information on C++11. Enjoy!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -670,6 +727,10 @@ A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/02/25/functional-programming-in-c-plus-plus/">Functional Programming in C++</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/12/c-plus-plus-preprocessor-explained/">C++ Preprocessor Explained</a>
       </li>
     
@@ -683,10 +744,6 @@ A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown
     
       <li class="post">
         <a href="/blog/2013/12/21/the-best-bedtime-story-what-is-unicode/">What Is Unicode?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/20/regression-and-learning-models/">Regression and Learning Models</a>
       </li>
     
   </ul>

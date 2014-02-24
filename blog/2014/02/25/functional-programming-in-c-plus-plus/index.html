@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: sets - A little ninja blog</title>
+  <title>Functional programming in C++ - A little ninja blog</title>
   <meta name="author" content="Duong Nguyen">
 
   
-  <meta name="description" content="Category: sets">
+  <meta name="description" content="As many people (humbly including me) has been trying some new, exciting (maybe) features of the new standard version of C++, a.k.a C++11 (or, C++0x &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog4fun.github.ioblog/categories/sets">
+  <link rel="canonical" href="http://blog4fun.github.io/blog/2014/02/25/functional-programming-in-c-plus-plus">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="A little ninja blog" type="application/atom+xml">
@@ -78,35 +78,109 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Sets</h1>
+    
+      <h1 class="entry-title">Functional Programming in C++</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-25T00:40:00+09:00" pubdate data-updated="true">Feb 25<span>th</span>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>As many people (humbly including me) has been trying some new, exciting (maybe) features of the new standard version of C++, a.k.a <code>C++11</code> (or, <code>C++0x</code>), I personally still find it very rewarding to explore cool things about the oldie C++98 (correct me if I was wrong!). In this post, we will look into some basic techniques/features related to <strong>functional programming</strong> in C++. Unless otherwise stated, C++, in this post, refers to the previous standard version of the language. I&#8217;m unfortunately not a hardcore fan of some functional programming languages, e.g., Haskell, but the ideas of functional programming are very appealing and profound.     </p>
 
-  
-  <h2>2013</h2>
+<h3 id="map-and-reduce">0. Map and Reduce</h3>
+<p>People who are familiar with functional programming might look for something corresponding to the classic higher-order functions Map and Reduce in C++. One acceptable answer would be:    </p>
 
-<article>
-  
-<h1><a href="/blog/2013/12/21/the-best-bedtime-story-what-is-unicode/">What is Unicode?</a></h1>
-<time datetime="2013-12-21T18:10:00+09:00" pubdate><span class='month'>Dec</span> <span class='day'>21</span> <span class='year'>2013</span></time>
+<ul>
+  <li>
+    <p><strong>accumulate(start, stop, accumulator, binary_op)</strong>: a general purpose function in &lt;numeric&gt;, that basically transforms a collection/sequence of elements into a single value. Simply put, it does <strong>Reduce</strong>.    </p>
+  </li>
+  <li>
+    <p><strong>transform(start, stop, result, unary_op)</strong> or <strong>transform(start1, stop1, start2, result, binary_op)</strong>: a function in &lt;algorithm&gt; library, that applies specified operation and transform given sequence(s) to a new sequence. In other words, it does <strong>Map</strong>.</p>
+  </li>
+</ul>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/unicode/'>Unicode,</a>, <a class='category' href='/blog/categories/character/'>character</a>, <a class='category' href='/blog/categories/encoding/'>encoding,</a>, <a class='category' href='/blog/categories/sets/'>sets</a></span>
-</footer>
+<h3 id="function-object---functor">1. Function object - Functor</h3>
+<p>To be updated.    </p>
 
+<h3 id="adaptable-functions-and-functional-library">2. Adaptable Functions and &lt;functional&gt; library</h3>
+<p>To be updated.    </p>
 
-</article>
-
+<h3 id="where-to-go-from-here">3. Where to go from here?</h3>
+<p>As you can see, C++ does provide support for function programming through e.g., useful yet quite limited &lt;functional&gt; library. <code>C++11</code>, however, seems to empower us with more features which can make functional programming a lot easier and funnier. Check out <a href="http://www.stroustrup.com/C++11FAQ.html">Bjarne Stroustrup&#8217;s page</a>, or <a href="http://www.codeproject.com/Articles/570638/Ten-Cplusplus11-Features-Every-Cplusplus-Developer">this article</a> for more information on C++11. Enjoy!</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Duong Nguyen</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-25T00:40:00+09:00" pubdate data-updated="true">Feb 25<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/c-plus-plus/'>C++</a>, <a class='category' href='/blog/categories/programming/'>programming,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://blog4fun.github.io/blog/2014/02/25/functional-programming-in-c-plus-plus/" data-via="" data-counturl="http://blog4fun.github.io/blog/2014/02/25/functional-programming-in-c-plus-plus/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/02/12/c-plus-plus-preprocessor-explained/" title="Previous Post: C++ Preprocessor Explained">&laquo; C++ Preprocessor Explained</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>

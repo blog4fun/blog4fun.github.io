@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: C++ | A little ninja blog]]></title>
+  <link href="http://blog4fun.github.io/blog/categories/c-plus-plus/atom.xml" rel="self"/>
+  <link href="http://blog4fun.github.io/"/>
+  <updated>2014-02-25T01:45:14+09:00</updated>
+  <id>http://blog4fun.github.io/</id>
+  <author>
+    <name><![CDATA[Duong Nguyen]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Functional programming in C++]]></title>
+    <link href="http://blog4fun.github.io/blog/2014/02/25/functional-programming-in-c-plus-plus/"/>
+    <updated>2014-02-25T00:40:00+09:00</updated>
+    <id>http://blog4fun.github.io/blog/2014/02/25/functional-programming-in-c-plus-plus</id>
+    <content type="html"><![CDATA[<p>As many people (humbly including me) has been trying some new, exciting (maybe) features of the new standard version of C++, a.k.a <code>C++11</code> (or, <code>C++0x</code>), I personally still find it very rewarding to explore cool things about the oldie C++98 (correct me if I was wrong!). In this post, we will look into some basic techniques/features related to <strong>functional programming</strong> in C++. Unless otherwise stated, C++, in this post, refers to the previous standard version of the language. I'm unfortunately not a hardcore fan of some functional programming languages, e.g., Haskell, but the ideas of functional programming are very appealing and profound.     </p>
+
+<h3 id="map-and-reduce">0. Map and Reduce</h3>
+<p>People who are familiar with functional programming might look for something corresponding to the classic higher-order functions Map and Reduce in C++. One acceptable answer would be:    </p>
+
+<ul>
+  <li>
+    <p><strong>accumulate(start, stop, accumulator, binary_op)</strong>: a general purpose function in &lt;numeric&gt;, that basically transforms a collection/sequence of elements into a single value. Simply put, it does <strong>Reduce</strong>.    </p>
+  </li>
+  <li>
+    <p><strong>transform(start, stop, result, unary_op)</strong> or <strong>transform(start1, stop1, start2, result, binary_op)</strong>: a function in &lt;algorithm&gt; library, that applies specified operation and transform given sequence(s) to a new sequence. In other words, it does <strong>Map</strong>.</p>
+  </li>
+</ul>
+
+<h3 id="function-object---functor">1. Function object - Functor</h3>
+<p>To be updated.    </p>
+
+<h3 id="adaptable-functions-and-functional-library">2. Adaptable Functions and &lt;functional&gt; library</h3>
+<p>To be updated.    </p>
+
+<h3 id="where-to-go-from-here">3. Where to go from here?</h3>
+<p>As you can see, C++ does provide support for function programming through e.g., useful yet quite limited &lt;functional&gt; library. <code>C++11</code>, however, seems to empower us with more features which can make functional programming a lot easier and funnier. Check out <a href="http://www.stroustrup.com/C++11FAQ.html">Bjarne Stroustrup's page</a>, or <a href="http://www.codeproject.com/Articles/570638/Ten-Cplusplus11-Features-Every-Cplusplus-Developer">this article</a> for more information on C++11. Enjoy!</p>
+]]></content>
+  </entry>
+  
+</feed>
