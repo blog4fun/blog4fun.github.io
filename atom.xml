@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[A little ninja blog]]></title>
+  <title><![CDATA[Random thoughts]]></title>
   <link href="http://blog4fun.github.io/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2014-02-25T01:45:14+09:00</updated>
+  <updated>2014-04-13T15:18:49+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -12,6 +12,28 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Simple Combinatorics Cheetsheat]]></title>
+    <link href="http://blog4fun.github.io/blog/2014/04/13/simple-combinatorics-cheetsheat/"/>
+    <updated>2014-04-13T13:53:00+09:00</updated>
+    <id>http://blog4fun.github.io/blog/2014/04/13/simple-combinatorics-cheetsheat</id>
+    <content type="html"><![CDATA[<p>Recently, I came across a nice <a href="http://community.topcoder.com/tc?module=Static&amp;d1=tutorials&amp;d2=combinatorics">post</a> on basic combinatorics. It brings back some vague memory from my middle school time when I started to learn very basic stuff related to combinations, permutations, etc. At first, I was not too excited about figuring out those formulae on my own. As time goes by, however, I&#8217;ve realized that the intuitive meanings, principles under the hood are incredibly useful and interesting. Counting, or enumerating discrete structures, e.g., sets of elements satisfying certain criteria are fundamental and common problems that we often meet in our daily life. Instead of giving a thorough review of basics of combinatorics which is well beyond the scope of my humble knowledge, I&#8217;d like to jot down some things (e.g., facts, problems, etc.) mostly related to practical usage of basic combinatorics. For more details, please refer to standard <a href="http://amzn.to/1elJKUd">discrete math books</a>, <a href="http://amzn.to/1n3EW8M">combinatorics book</a>, etc. I will keep updating this post whenever I find something new and interesting. Constructive comments and suggestions are really appreciated.    </p>
+
+<h2 id="catalan-numbers">Catalan numbers</h2>
+<p>The n-th Catalan number is defined as: $C_n = \frac{(2n)!}{n!(n+1)!}$. Well, it is another randomly boring formula, isn&#8217; it? It turn out that these numbers have some surprisingly nice properties, particularly if you happen to figure them out on your own. For examples,  <br />
++ $C_n$ is the number of <a href="http://en.wikipedia.org/wiki/Dyck_language">Dyck words</a> of length $2n$, with a nice geometrical interpretation as shown in <a href="http://community.topcoder.com/tc?module=Static&amp;d1=tutorials&amp;d2=combinatorics">this post</a>.  <br />
++ $C_n$ is the number of correct arrangements of $n$ pairs of parentheses. This is followed directly from the definiton of Dyck words above.  <br />
++ $C_n$ is the number of possible triangulations of a polygon with $n+2$ vertices. The triangulation problem is a very nice problem itself that you might want to find out more later. Here comes the first question, can you prove this fact? <em>Hint</em>: Try to build a bijection between the set of correct arrangements of $n$ pairs of parentheses with the set of all possible triangulations of a polygon with $n+2$ vertices.   <br />
+<strong>Useful tip</strong>: Find a bijection, i.e., a one-one mapping between two countable sets to prove their cardinalities are equal is an useful technique often employed in combinatorics, and general problem solving. Also, by building the mapping between an unknown problem to a problem with well-known solutions, you can easily obtain the solutions of the former without trying to solve it directly (it might be difficult!).    </p>
+
+<h2 id="inclusion-exclusion-principle">Inclusion-Exclusion principle</h2>
+
+<h2 id="back-to-the-primitives">Back to the primitives</h2>
+
+<h2 id="recurrence-relations">Recurrence relations</h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Functional programming in C++]]></title>

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>A little ninja blog</title>
+  <title>Random thoughts</title>
   <meta name="author" content="Duong Nguyen">
 
   
-  <meta name="description" content="As many people (humbly including me) has been trying some new, exciting (maybe) features of the new standard version of C++, a.k.a C++11 (or, C++0x &hellip;">
+  <meta name="description" content="Recently, I came across a nice post on basic combinatorics. It brings back some vague memory from my middle school time when I started to learn very &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +21,7 @@
   <link rel="canonical" href="http://blog4fun.github.io">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="A little ninja blog" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Random thoughts" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
@@ -50,9 +50,9 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">A little ninja blog</a></h1>
+  <h1><a href="/">Random thoughts</a></h1>
   
-    <h2>Random thoughts</h2>
+    <h2>Share to Learn, Learn to Share</h2>
   
 </hgroup>
 
@@ -79,6 +79,55 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/13/simple-combinatorics-cheetsheat/">Simple Combinatorics Cheetsheat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-13T13:53:00+09:00" pubdate data-updated="true">Apr 13<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently, I came across a nice <a href="http://community.topcoder.com/tc?module=Static&amp;d1=tutorials&amp;d2=combinatorics">post</a> on basic combinatorics. It brings back some vague memory from my middle school time when I started to learn very basic stuff related to combinations, permutations, etc. At first, I was not too excited about figuring out those formulae on my own. As time goes by, however, I&#8217;ve realized that the intuitive meanings, principles under the hood are incredibly useful and interesting. Counting, or enumerating discrete structures, e.g., sets of elements satisfying certain criteria are fundamental and common problems that we often meet in our daily life. Instead of giving a thorough review of basics of combinatorics which is well beyond the scope of my humble knowledge, I&#8217;d like to jot down some things (e.g., facts, problems, etc.) mostly related to practical usage of basic combinatorics. For more details, please refer to standard <a href="http://amzn.to/1elJKUd">discrete math books</a>, <a href="http://amzn.to/1n3EW8M">combinatorics book</a>, etc. I will keep updating this post whenever I find something new and interesting. Constructive comments and suggestions are really appreciated.    </p>
+
+<h2 id="catalan-numbers">Catalan numbers</h2>
+<p>The n-th Catalan number is defined as: $C_n = \frac{(2n)!}{n!(n+1)!}$. Well, it is another randomly boring formula, isn&#8217; it? It turn out that these numbers have some surprisingly nice properties, particularly if you happen to figure them out on your own. For examples,  <br />
++ $C_n$ is the number of <a href="http://en.wikipedia.org/wiki/Dyck_language">Dyck words</a> of length $2n$, with a nice geometrical interpretation as shown in <a href="http://community.topcoder.com/tc?module=Static&amp;d1=tutorials&amp;d2=combinatorics">this post</a>.  <br />
++ $C_n$ is the number of correct arrangements of $n$ pairs of parentheses. This is followed directly from the definiton of Dyck words above.  <br />
++ $C_n$ is the number of possible triangulations of a polygon with $n+2$ vertices. The triangulation problem is a very nice problem itself that you might want to find out more later. Here comes the first question, can you prove this fact? <em>Hint</em>: Try to build a bijection between the set of correct arrangements of $n$ pairs of parentheses with the set of all possible triangulations of a polygon with $n+2$ vertices.   <br />
+<strong>Useful tip</strong>: Find a bijection, i.e., a one-one mapping between two countable sets to prove their cardinalities are equal is an useful technique often employed in combinatorics, and general problem solving. Also, by building the mapping between an unknown problem to a problem with well-known solutions, you can easily obtain the solutions of the former without trying to solve it directly (it might be difficult!).    </p>
+
+<h2 id="inclusion-exclusion-principle">Inclusion-Exclusion principle</h2>
+
+<h2 id="back-to-the-primitives">Back to the primitives</h2>
+
+<h2 id="recurrence-relations">Recurrence relations</h2>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -727,6 +776,10 @@ A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/04/13/simple-combinatorics-cheetsheat/">Simple Combinatorics Cheetsheat</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/25/functional-programming-in-c-plus-plus/">Functional Programming in C++</a>
       </li>
     
@@ -740,10 +793,6 @@ A simple markdown <a href="https://github.com/adam-p/markdown-here/wiki/Markdown
     
       <li class="post">
         <a href="/blog/2014/01/12/how-to-efficiently-find-the-most-significant-bit/">The Most Significant Bit</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/12/21/the-best-bedtime-story-what-is-unicode/">What Is Unicode?</a>
       </li>
     
   </ul>

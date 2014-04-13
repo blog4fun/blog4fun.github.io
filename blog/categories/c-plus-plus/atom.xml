@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: C++ | A little ninja blog]]></title>
+  <title><![CDATA[Category: C++ | Random thoughts]]></title>
   <link href="http://blog4fun.github.io/blog/categories/c-plus-plus/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2014-02-25T01:45:14+09:00</updated>
+  <updated>2014-04-13T15:18:49+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
