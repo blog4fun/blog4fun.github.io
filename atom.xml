@@ -4,7 +4,7 @@
   <title><![CDATA[Random thoughts]]></title>
   <link href="http://blog4fun.github.io/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2014-05-18T18:29:39+09:00</updated>
+  <updated>2014-05-28T02:18:50+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Newbie in ML land: Loss functions tour]]></title>
+    <link href="http://blog4fun.github.io/blog/2014/05/27/newbie-in-ml-land-loss-functions-tour/"/>
+    <updated>2014-05-27T14:46:00+09:00</updated>
+    <id>http://blog4fun.github.io/blog/2014/05/27/newbie-in-ml-land-loss-functions-tour</id>
+    <content type="html"><![CDATA[<p>It has been a while since my last post in series of machine learning for newbie. This time, we will discuss a bit on <strong>the loss functions</strong>. But wait, what is the loss function, anyway? Let&#8217;s get started with the problem of making prediction on new unseen data based on given training data. This problem includes both regression and classification as its specific cases. More specificially, we consider a predictive function $f: \mathcal{X} \rightarrow \mathcal{Y}$, with input (covariate, feature vector) $x \in \mathcal{X}$, and output (label) $y \in \mathcal{Y}$. For a given x, we try to predict its corresponding output as $f(x)$ such that $f(x)$ is as close to the true output as possible. It&#8217;s clear that we need some ways to measure how close (how good) our prediction is to the true value. That where a loss function comes in. In this post, unless stated otherwise, we consider a loss function $l: \mathcal{Y} \times \mathcal{Y} \rightarrow \mathcal{R}$ such that $l(f(x), y)$ tell you how close our prediction $f(x)$ to the true value $y$ in a quantitative manner. The problem of making prediction is simply equivalent to learning the predictive function <code>f(x)</code> which minimizes the expected risk:</p>
+
+<p>$\underset{f \in \mathcal{F}}{\mathrm{min}}:\mathbf{E}_{P(x,y)}[l(f(x),y)]$ (*),</p>
+
+<p>where $\mathcal{F}$ is our model from which we select the predictive function, P(x,y) is the underlying joint distribution of input <code>x</code> and output <code>y</code>. We will talk about model selection and how to minimize the expected risk above, e.g. empirical risk minimization (ERM) in other posts. For now, let us focus on the problem of choosing the appropriate loss function. More specifically, different types of loss functions might lead to different solutions of the minimization problem above. In other words, the loss function should be carefully selected depending on specific problems, and our purposes. From now, we will take a tour over some common loss functions and their usage.</p>
+
+<h4 id="i-loss-functions-in-regression">I. Loss Functions in Regression</h4>
+<p>For simplicity, we often consider $\mathcal{Y} = \mathbf{R}$ in regression setting.</p>
+
+<h5 id="squared-loss">1. Squared Loss:</h5>
+<p>$l(f(x),y) = (f(x) - y)^2$.  <br />
+This is one of the most natural loss function we might come up with at the first place. Under this loss function, our expected solution to the minimization problem (*) is: <script type="math/tex">f(x) = \mathbf{E}[Y|X=x]</script> for a given input <script type="math/tex">x</script>. <br />
+In other words, we will obtain the <strong>conditional mean</strong> as the solution of ordinary least squares regression with the <strong>squared loss</strong> function. </p>
+
+<h5 id="tau-quantile-loss">2. $\tau$-quantile loss:</h5>
+<p>$l(f(x),y) = (1-\tau)\mathrm{max}(f(x)-y,0) + \tau\mathrm{max}(y-f(x),0)$,  <br />
+for some $\tau \in (0,1)$.  <br />
+Under this loss function, our expected solution for (*) is: <script type="math/tex">% &lt;![CDATA[
+\{y~|~\mathrm{Pr}(Y < y) \leq \tau \leq \mathrm{Pr}(Y \leq y)\} %]]&gt;</script>. In other words, we obtain the $\tau$-quantile point of the conditional probability $P(Y|X=x)$. Especially, when $\tau = 0.5$, $l(f(x), y) = |f(x)-y|$, and the solution is the median of the conditional probability $P(Y|X=x)$.</p>
+
+<h4 id="ii-loss-functions-in-classification">II. Loss functions in Classification</h4>
+<p>Here we only consider the binary classification problem where <script type="math/tex">\mathcal{Y} = \{+1, -1\}</script>. However, the loss functions discussed here also generalize to the multiclass problems as well.     </p>
+
+<h5 id="loss">1. 0-1 loss:</h5>
+
+<h5 id="convex-surrogate-losses">2. Convex surrogate losses</h5>
+
+<h6 id="logistic-loss">* Logistic loss</h6>
+
+<h6 id="hinge-loss">* Hinge loss</h6>
+
+<h6 id="exponential-loss">* Exponential loss</h6>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Simple Combinatorics Cheetsheat]]></title>
