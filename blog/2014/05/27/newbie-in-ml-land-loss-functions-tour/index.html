@@ -9,7 +9,7 @@
   <meta name="author" content="Duong Nguyen">
 
   
-  <meta name="description" content="It has been a while since my last post in series of machine learning for newbie. This time, we will discuss a bit on the loss functions. But wait, &hellip;">
+  <meta name="description" content="It has been a while since my last post in series of machine learning for newbie. This time, we will discuss a bit on the loss functions. But what is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -118,7 +118,10 @@
   </header>
 
 
-<div class="entry-content"><p>It has been a while since my last post in series of <strong>machine learning for newbie</strong>. This time, we will discuss a bit on <strong>the loss functions</strong>. But wait, what is the loss function, anyway? Let&#8217;s get started with the problem of making prediction on new unseen data based on given training data. This problem includes both regression and classification as its specific cases. More specificially, we consider a predictive function $f: \mathcal{X} \rightarrow \mathcal{Y}$, with input (covariate, feature vector) $x \in \mathcal{X}$, and output (label) $y \in \mathcal{Y}$. For a given x, we try to predict its corresponding output as $f(x)$ such that $f(x)$ is as close to the true output as possible. It&#8217;s clear that we need some ways to measure how close (how good) our prediction is to the true value. That where a loss function comes in. In this post, unless stated otherwise, we consider a loss function $l: \mathcal{Y} \times \mathcal{Y} \rightarrow \mathcal{R}$ such that $l(f(x), y)$ tell you how close our prediction $f(x)$ to the true value $y$ in a quantitative manner. The problem of making prediction is simply equivalent to learning the predictive function <code>f(x)</code> which minimizes the expected risk:</p>
+<div class="entry-content"><p>It has been a while since my last post in series of <strong>machine learning for newbie</strong>. This time, we will discuss a bit on <strong>the loss functions</strong>. But what is the loss function, anyway?     </p>
+
+<h4 id="preliminary">0. Preliminary</h4>
+<p>Let&#8217;s get started with the problem of making prediction on new unseen data based on given training data. This problem includes both regression and classification as its specific cases. More specificially, we consider a predictive function $f: \mathcal{X} \rightarrow \mathcal{Y}$, with input (covariate, feature vector) $x \in \mathcal{X}$, and output (label) $y \in \mathcal{Y}$. For a given $x$, we try to predict its corresponding output as $f(x)$ such that $f(x)$ is as close to the true output as possible. It&#8217;s clear that we need some ways to measure how close (how good) our prediction is to the true value. That where a loss function comes in. In this post, unless stated otherwise, we consider a loss function $l: \mathcal{Y} \times \mathcal{Y} \rightarrow \mathcal{R}$ such that $l(f(x), y)$ tell you how close our prediction $f(x)$ to the true value $y$ in a quantitative manner. The problem of making prediction is simply equivalent to learning the predictive function <code>f(x)</code> which minimizes the expected risk:</p>
 
 <p><script type="math/tex">~~~~~~~~~~~~~~~~~~~\underset{f \in \mathcal{F}}{\mathrm{min}}\:\mathbf{E}_{P(x,y)}[l(f(x),y)]</script>  (*)</p>
 
@@ -171,7 +174,7 @@ f^{*}(x) = \left\{\begin{matrix}
 \end{matrix}\right. %]]></script>
 
 <p>This further leads to the concept, called <code>margin</code>, defined as $m(x) = yf(x)$. Intuitively, a positive/negative margin means correct/wrong classification. Intuitively, the larger than 0 the margin is, the more confidence we have in our prediction. This idea is related to maximum margin classifier, where the popular <strong>Support Vector Machine (SVM)</strong> is an example.  <br />
-Another problem is that while there is nothing wrong with the straightforward 0-1 loss, its non-convexity leads to difficultly in solving our optimization problem. In general, there are no guarantees about minimization with non-convex optimization functions. That&#8217;s why it is common practice in machine learning that people uses convex loss functions, whose convexities guarantees that we can find the (unique) minimum for our optimization problem, as a proxy for the 0-1 loss. See, e.g., <a href="http://www.eecs.berkeley.edu/~wainwrig/stat241b/bartlettetal.pdf">P. Barlett, et al. Convexity, Clasification, and Risk Bounds</a> for theoretical justification of using the convex surrogate losses. Now, let&#8217;s take a look at some common convex surrogate losses in classfication.</p>
+Another problem is that while there is nothing wrong with the straightforward 0-1 loss, its non-convexity leads to difficultly in solving our optimization problem. In general, there are no guarantees about minimization with non-convex optimization functions. That&#8217;s why it is common practice in machine learning that people uses convex loss functions, whose convexities guarantees that we can find the (unique) minimum for our optimization problem, as a proxy for the 0-1 loss. See, e.g., <a href="http://www.eecs.berkeley.edu/~wainwrig/stat241b/bartlettetal.pdf">Peter L. Bartlett, et al. Convexity, Clasification, and Risk Bounds</a> for theoretical justification of using the convex surrogate losses. Now, let&#8217;s take a look at some common convex surrogate losses in classfication.</p>
 
 <h5 id="convex-surrogate-losses">2. Convex surrogate losses</h5>
 <p>The convex surrogate losses are often defined as functions of the <code>margin</code> mentioned above. Intuitively, the surrogate loss should be a monotonically decreasing function, i.e., the larger the margin, the smaller the incurred loss shoud be.        </p>
