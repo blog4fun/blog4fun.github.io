@@ -4,7 +4,7 @@
   <title><![CDATA[Category: regression | Random thoughts]]></title>
   <link href="http://blog4fun.github.io/blog/categories/regression/atom.xml" rel="self"/>
   <link href="http://blog4fun.github.io/"/>
-  <updated>2014-05-28T02:18:50+09:00</updated>
+  <updated>2014-05-28T15:50:59+09:00</updated>
   <id>http://blog4fun.github.io/</id>
   <author>
     <name><![CDATA[Duong Nguyen]]></name>
@@ -14,13 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Newbie in ML land: Loss functions tour]]></title>
+    <title type="html"><![CDATA[How not to be lost in the world of loss functions]]></title>
     <link href="http://blog4fun.github.io/blog/2014/05/27/newbie-in-ml-land-loss-functions-tour/"/>
     <updated>2014-05-27T14:46:00+09:00</updated>
     <id>http://blog4fun.github.io/blog/2014/05/27/newbie-in-ml-land-loss-functions-tour</id>
-    <content type="html"><![CDATA[<p>It has been a while since my last post in series of machine learning for newbie. This time, we will discuss a bit on <strong>the loss functions</strong>. But wait, what is the loss function, anyway? Let's get started with the problem of making prediction on new unseen data based on given training data. This problem includes both regression and classification as its specific cases. More specificially, we consider a predictive function $f: \mathcal{X} \rightarrow \mathcal{Y}$, with input (covariate, feature vector) $x \in \mathcal{X}$, and output (label) $y \in \mathcal{Y}$. For a given x, we try to predict its corresponding output as $f(x)$ such that $f(x)$ is as close to the true output as possible. It's clear that we need some ways to measure how close (how good) our prediction is to the true value. That where a loss function comes in. In this post, unless stated otherwise, we consider a loss function $l: \mathcal{Y} \times \mathcal{Y} \rightarrow \mathcal{R}$ such that $l(f(x), y)$ tell you how close our prediction $f(x)$ to the true value $y$ in a quantitative manner. The problem of making prediction is simply equivalent to learning the predictive function <code>f(x)</code> which minimizes the expected risk:</p>
+    <content type="html"><![CDATA[<p>It has been a while since my last post in series of <strong>machine learning for newbie</strong>. This time, we will discuss a bit on <strong>the loss functions</strong>. But wait, what is the loss function, anyway? Let's get started with the problem of making prediction on new unseen data based on given training data. This problem includes both regression and classification as its specific cases. More specificially, we consider a predictive function $f: \mathcal{X} \rightarrow \mathcal{Y}$, with input (covariate, feature vector) $x \in \mathcal{X}$, and output (label) $y \in \mathcal{Y}$. For a given x, we try to predict its corresponding output as $f(x)$ such that $f(x)$ is as close to the true output as possible. It's clear that we need some ways to measure how close (how good) our prediction is to the true value. That where a loss function comes in. In this post, unless stated otherwise, we consider a loss function $l: \mathcal{Y} \times \mathcal{Y} \rightarrow \mathcal{R}$ such that $l(f(x), y)$ tell you how close our prediction $f(x)$ to the true value $y$ in a quantitative manner. The problem of making prediction is simply equivalent to learning the predictive function <code>f(x)</code> which minimizes the expected risk:</p>
 
-<p>$\underset{f \in \mathcal{F}}{\mathrm{min}}:\mathbf{E}_{P(x,y)}[l(f(x),y)]$ (*),</p>
+<p><script type="math/tex">~~~~~~~~~~~~~~~~~~~\underset{f \in \mathcal{F}}{\mathrm{min}}\:\mathbf{E}_{P(x,y)}[l(f(x),y)]</script>  (*)</p>
 
 <p>where $\mathcal{F}$ is our model from which we select the predictive function, P(x,y) is the underlying joint distribution of input <code>x</code> and output <code>y</code>. We will talk about model selection and how to minimize the expected risk above, e.g. empirical risk minimization (ERM) in other posts. For now, let us focus on the problem of choosing the appropriate loss function. More specifically, different types of loss functions might lead to different solutions of the minimization problem above. In other words, the loss function should be carefully selected depending on specific problems, and our purposes. From now, we will take a tour over some common loss functions and their usage.</p>
 
@@ -28,12 +28,12 @@
 <p>For simplicity, we often consider $\mathcal{Y} = \mathbf{R}$ in regression setting.</p>
 
 <h5 id="squared-loss">1. Squared Loss:</h5>
-<p>$l(f(x),y) = (f(x) - y)^2$.  <br />
+<p><script type="math/tex">~~~~~~~~~~~l(f(x),y) = (f(x) - y)^2</script>.  <br />
 This is one of the most natural loss function we might come up with at the first place. Under this loss function, our expected solution to the minimization problem (*) is: <script type="math/tex">f(x) = \mathbf{E}[Y|X=x]</script> for a given input <script type="math/tex">x</script>. <br />
 In other words, we will obtain the <strong>conditional mean</strong> as the solution of ordinary least squares regression with the <strong>squared loss</strong> function. </p>
 
 <h5 id="tau-quantile-loss">2. $\tau$-quantile loss:</h5>
-<p>$l(f(x),y) = (1-\tau)\mathrm{max}(f(x)-y,0) + \tau\mathrm{max}(y-f(x),0)$,  <br />
+<p>$~~~~~~~~~~l(f(x),y) = (1-\tau)\mathrm{max}(f(x)-y,0) + \tau\mathrm{max}(y-f(x),0)$,  <br />
 for some $\tau \in (0,1)$.  <br />
 Under this loss function, our expected solution for (*) is: <script type="math/tex">% &lt;![CDATA[
 \{y~|~\mathrm{Pr}(Y < y) \leq \tau \leq \mathrm{Pr}(Y \leq y)\} %]]&gt;</script>. In other words, we obtain the $\tau$-quantile point of the conditional probability $P(Y|X=x)$. Especially, when $\tau = 0.5$, $l(f(x), y) = |f(x)-y|$, and the solution is the median of the conditional probability $P(Y|X=x)$.</p>
@@ -42,14 +42,63 @@ Under this loss function, our expected solution for (*) is: <script type="math/t
 <p>Here we only consider the binary classification problem where <script type="math/tex">\mathcal{Y} = \{+1, -1\}</script>. However, the loss functions discussed here also generalize to the multiclass problems as well.     </p>
 
 <h5 id="loss">1. 0-1 loss:</h5>
+<p>In binary classification, our objective is to minimize the misclassfication error as    <br />
+<script type="math/tex">~~~~~~~~~~~~~~~~~~~~~~\underset{f \in \mathcal{F}}{\mathrm{min}}~E\{\boldsymbol{1}[y \neq f(x)]\}</script> (**)      <br />
+where <script type="math/tex">f(x) \in \{+1, -1\}</script>, and $l(f(x), y) = \boldsymbol{1}[y \neq f(x)]$ is called 0-1 loss, such that:   </p>
+
+<script type="math/tex; mode=display">% &lt;![CDATA[
+\boldsymbol{1}[y \neq f(x)] = \left\{\begin{matrix}
+1 & \mathrm{if} & y \neq f(x)\\ 
+0 &  & \mathrm{otherwise} 
+\end{matrix}\right. %]]&gt;</script>
+
+<p>The predictive function that minimizes the objective <code>(**)</code> above is called the optimal Bayes classifier:     </p>
+
+<script type="math/tex; mode=display">% &lt;![CDATA[
+f^{*}(x) = \left\{\begin{matrix}
++1 & \mathrm{if} & P(y=1|x) > P(y=-1|x)\\ 
+-1 & \mathrm{if} & P(y=1|x) < P(y=-1|x)\\ 
+(-1~\mathrm{or}~+1) &  & \mathrm{otherwise} 
+\end{matrix}\right. %]]&gt;</script>
+
+<p>Astute readers might notice that the discreteness of output domain ${+1, -1}$ makes our predictive function not quite comfortable to handle. So, let us consider a predictive function similar to regression case, i.e. $f: \mathcal{X} \rightarrow \mathbf{R}$, and just take the sign of this function to classify the input,    </p>
+
+<script type="math/tex; mode=display">% &lt;![CDATA[
+ \mathrm{sign}(f(x)) = \left\{\begin{matrix}
++1 & \mathrm{if} & f(x) > 0\\ 
+-1 & \mathrm{if} & f(x) < 0\\ 
+(-1~\mathrm{or}~+1) &  & \mathrm{otherwise} 
+\end{matrix}\right. %]]&gt;</script>
+
+<p>This further leads to the concept, called <code>margin</code>, defined as $m(x) = yf(x)$. Intuitively, a positive/negative margin means correct/wrong classification. Intuitively, the larger than 0 the margin is, the more confidence we have in our prediction. This idea is related to maximum margin classifier, where the popular <strong>Support Vector Machine (SVM)</strong> is an example.  <br />
+Another problem is that while there is nothing wrong with the straightforward 0-1 loss, its non-convexity leads to difficultly in solving our optimization problem. In general, there are no guarantees about minimization with non-convex optimization functions. That's why it is common practice in machine learning that people uses convex loss functions, whose convexities guarantees that we can find the (unique) minimum for our optimization problem, as a proxy for the 0-1 loss. See, e.g., <a href="http://www.eecs.berkeley.edu/~wainwrig/stat241b/bartlettetal.pdf">P. Barlett, et al. Convexity, Clasification, and Risk Bounds</a> for theoretical justification of using the convex surrogate losses. Now, let's take a look at some common convex surrogate losses in classfication.</p>
 
 <h5 id="convex-surrogate-losses">2. Convex surrogate losses</h5>
+<p>The convex surrogate losses are often defined as functions of the <code>margin</code> mentioned above. Intuitively, the surrogate loss should be a monotonically decreasing function, i.e., the larger the margin, the smaller the incurred loss shoud be.        </p>
 
 <h6 id="logistic-loss">* Logistic loss</h6>
+<p><script type="math/tex">~~~~~~~~~~l(f(x), y) = log(1 + exp(-yf(x))) = log(1 + exp(-m(x)))</script>.   <br />
+This loss function is used in <strong>Logistic regression</strong>, which actually is a classification technique despite its name. From the probabilistical perspective of logistic regression, minimizing the logistic loss is equivalent to maximizing the conditional log-likelihood <code>log P(Y|X)</code>.</p>
 
 <h6 id="hinge-loss">* Hinge loss</h6>
+<p><script type="math/tex">~~~~~~~~~~l(f(x), y) = max(1-yf(x), 0) = max(1-m(x),0)</script>.    <br />
+This loss function is used in <strong>Support Vector Machine</strong>. Since it is unbounded as the margin is getting negatively smaller, this loss function may be sensitive to outlier in the data. Its bounded variant, called <strong>Ramp loss</strong> is proposed to be more robust against outlier.   <br />
+<script type="math/tex">~~~~~~~~~~l_{Ramp}(f(x), y) = min(1, max(1-yf(x),0))</script>.    </p>
 
 <h6 id="exponential-loss">* Exponential loss</h6>
+<p><script type="math/tex">~~~~~~~~~~l(f(x), y) = exp(-yf(x)) = exp(-m(x))</script>.  <br />
+This loss function is often used in <strong>Boosting algorithm</strong>, such as <code>Adaboost</code>. What <code>Adaboost</code> actually does is minimizing the exponential loss function with training data. Again, its sensitiveness to noise in data leads to many proposed robust boosting algorithms, e.g., <code>Madaboost</code>, <code>Logitboost</code> which use more robust loss functions.    </p>
+
+<script type="math/tex; mode=display">% &lt;![CDATA[
+l_{mada}(f(x), y) = \left\{\begin{matrix}
+-m(x) + 1/2 & \mathrm{if} & m(x) <= 0\\ 
+exp(-2m(x))/2 & \mathrm{if} & m > 0 
+\end{matrix}\right. %]]&gt;</script>
+
+<p><script type="math/tex">~~~~~~~~~~l_{logit}(f(x), y) = log(1+exp(-2m(x)))</script>.</p>
+
+<p>Since a picture might worth a thousand words, let me conclude with an illustrative figure, including plots of loss functions we discussed in this long post. Until next time!
+<img src="/images/loss.png"></p>
 ]]></content>
   </entry>
   
